@@ -1,0 +1,224 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  password     String
+  name         String
+  role         String   @default("manager") // owner, manager, florist, courier
+  isActive     Boolean  @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  activityLogs ActivityLog[]
+}
+
+model Customer {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  password     String
+  name         String
+  phone        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  orders       Order[]
+  favorites    Favorite[]
+  addresses    Address[]
+  reviews      Review[]
+  notifications Notification[]
+}
+
+model Address {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  name       String
+  street     String
+  apartment  String?
+  district   String?
+  city       String   @default("Бишкек")
+  isDefault  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  imageUrl    String?
+  sortOrder   Int       @default(0)
+  isActive    Boolean   @default(true)
+  products    Product[]
+  createdAt   DateTime  @default(now())
+}
+
+model Product {
+  id           String      @id @default(cuid())
+  name         String
+  slug         String      @unique
+  description  String
+  composition  String?
+  price        Int
+  oldPrice     Int?
+  categoryId   String
+  category     Category    @relation(fields: [categoryId], references: [id])
+  images       ProductImage[]
+  size         String?     // small, medium, large, xl
+  colors       String?     // comma-separated: red,white,pink
+  flowers      String?     // comma-separated: rose,peony,tulip
+  occasion     String?     // comma-separated: birthday,wedding,anniversary
+  inStock      Boolean     @default(true)
+  stockCount   Int         @default(99)
+  isPopular    Boolean     @default(false)
+  isFeatured   Boolean     @default(false)
+  isNew        Boolean     @default(false)
+  sortOrder    Int         @default(0)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  orderItems   OrderItem[]
+  favorites    Favorite[]
+  reviews      Review[]
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  alt       String?
+  sortOrder Int     @default(0)
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique
+  customerId      String?
+  customer        Customer?   @relation(fields: [customerId], references: [id])
+  customerName    String
+  customerPhone   String
+  customerEmail   String?
+  deliveryMethod  String      // pickup, delivery
+  deliveryAddress String?
+  deliveryDate    String?
+  deliveryTime    String?
+  recipientName   String?
+  recipientPhone  String?
+  greetingCard    String?
+  isAnonymous     Boolean     @default(false)
+  specialNotes    String?
+  paymentMethod   String      // card, qr
+  paymentStatus   String      @default("pending") // pending, waiting_verification, paid, failed
+  receiptImage    String?
+  status          String      @default("created")
+  // created, waiting_payment, waiting_verification, paid, confirmed,
+  // preparing, ready, courier_assigned, out_for_delivery, delivered, completed, cancelled
+  subtotal        Int
+  deliveryCost    Int         @default(0)
+  total           Int
+  adminNotes      String?
+  courierId       String?
+  items           OrderItem[]
+  notifications   Notification[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  name      String
+  price     Int
+  quantity  Int
+  imageUrl  String?
+}
+
+model Favorite {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([customerId, productId])
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  rating     Int
+  text       String?
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@unique([customerId, productId])
+}
+
+model CustomRequest {
+  id               String              @id @default(cuid())
+  customerId       String?
+  customerName     String
+  customerPhone    String
+  customerEmail    String?
+  description      String
+  budget           Int?
+  preferredFlowers String?
+  preferredColors  String?
+  deliveryDate     String?
+  additionalNotes  String?
+  status           String              @default("pending")
+  // pending, reviewing, offer_sent, accepted, rejected, cancelled
+  offerPrice       Int?
+  offerDescription String?
+  offerImageUrl    String?
+  images           CustomRequestImage[]
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+}
+
+model CustomRequestImage {
+  id              String        @id @default(cuid())
+  customRequestId String
+  customRequest   CustomRequest @relation(fields: [customRequestId], references: [id], onDelete: Cascade)
+  url             String
+  createdAt       DateTime      @default(now())
+}
+
+model Notification {
+  id         String    @id @default(cuid())
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  orderId    String?
+  order      Order?    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  title      String
+  message    String
+  isRead     Boolean   @default(false)
+  type       String    @default("info") // info, success, warning, error
+  createdAt  DateTime  @default(now())
+}
+
+model ActivityLog {
+  id          String    @id @default(cuid())
+  adminId     String
+  admin       AdminUser @relation(fields: [adminId], references: [id])
+  action      String
+  entityType  String?
+  entityId    String?
+  details     String?
+  ipAddress   String?
+  createdAt   DateTime  @default(now())
+}

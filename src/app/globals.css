@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-cormorant: 'Cormorant Garamond', Georgia, serif;
+    --font-inter: 'Inter', system-ui, sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #FFF8FB;
+    color: #1A1A1A;
+    font-family: var(--font-inter);
+    line-height: 1.6;
+  }
+
+  ::selection {
+    background-color: #B8829A;
+    color: white;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #FFF8FB;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #E2ABBE;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #B8829A;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-cormorant);
+    font-weight: 600;
+    line-height: 1.2;
+    color: #111111;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-pandora-rose text-white font-medium tracking-wide rounded-sm transition-all duration-300 hover:bg-pandora-dark hover:shadow-luxury active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-pandora-rose text-pandora-rose font-medium tracking-wide rounded-sm transition-all duration-300 hover:bg-pandora-rose hover:text-white active:scale-95;
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-pandora-gold text-white font-medium tracking-wide rounded-sm transition-all duration-300 hover:bg-yellow-600 hover:shadow-luxury active:scale-95;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 text-pandora-text font-medium tracking-wide rounded-sm transition-all duration-300 hover:bg-pandora-border;
+  }
+
+  .card-product {
+    @apply bg-white rounded-sm overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-white border border-pandora-border rounded-sm text-pandora-text placeholder:text-pandora-muted focus:outline-none focus:border-pandora-rose transition-colors duration-200;
+  }
+
+  .section-title {
+    @apply font-serif text-3xl md:text-4xl lg:text-5xl text-pandora-dark tracking-tight;
+  }
+
+  .section-subtitle {
+    @apply text-pandora-muted text-sm tracking-widest uppercase;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-sm text-xs font-medium;
+  }
+
+  .badge-new {
+    @apply badge bg-pandora-rose text-white;
+  }
+
+  .badge-popular {
+    @apply badge bg-pandora-gold text-white;
+  }
+
+  .badge-sale {
+    @apply badge bg-red-500 text-white;
+  }
+
+  .container-site {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .divider-gold {
+    @apply w-16 h-px bg-pandora-gold mx-auto my-4;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .font-serif {
+    font-family: var(--font-cormorant);
+  }
+
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-1;
+  }
+}
+
+/* Swiper overrides */
+.swiper-pagination-bullet {
+  background: #E8DFE0 !important;
+  opacity: 1 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #8B2252 !important;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: #8B2252 !important;
+}
+
+/* Hide scrollbar for product gallery thumbnails */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Admin sidebar */
+.admin-nav-item {
+  @apply flex items-center gap-3 px-4 py-3 rounded-sm text-sm font-medium transition-all duration-200 cursor-pointer;
+}
+
+.admin-nav-item.active {
+  @apply bg-pandora-rose text-white;
+}
+
+.admin-nav-item:not(.active) {
+  @apply text-gray-600 hover:bg-gray-100;
+}
+
+/* Animate page transitions */
+.page-enter {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
