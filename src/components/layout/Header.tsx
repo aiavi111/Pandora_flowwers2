@@ -15,6 +15,7 @@ import {
 import { useCartStore } from '@/store/cart';
 import { useFavoritesStore } from '@/store/favorites';
 import CartDrawer from '@/components/shop/CartDrawer';
+import { PandoraLogoMark } from '@/components/ui/PandoraLogoMark';
 import { cn } from '@/lib/utils';
 
 const navLinks = [
@@ -23,30 +24,6 @@ const navLinks = [
   { href: '/catalog/wedding', label: 'Свадебные' },
 ];
 
-function PandoraLogoMark({ size = 36, className = '' }: { size?: number; className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 100 100"
-      width={size}
-      height={size}
-      fill="currentColor"
-      className={className}
-    >
-      <path
-        fillRule="evenodd"
-        d="M50 4a46 46 0 1 0 0 92A46 46 0 0 0 50 4zm0 8a38 38 0 1 1 0 76 38 38 0 0 1 0-76z"
-      />
-      {([0, 90, 180, 270] as const).map((deg) => (
-        <g key={deg} transform={`rotate(${deg} 50 50)`}>
-          <path
-            fillRule="evenodd"
-            d="M50 50 C48 42 36 18 26 16 C16 14 14 26 20 36 C26 46 46 50 50 50 Z M30 24 C34 16 42 20 40 30 C38 38 28 38 26 30 C24 22 26 32 30 24 Z"
-          />
-        </g>
-      ))}
-    </svg>
-  );
-}
 
 export default function Header() {
   const pathname = usePathname();

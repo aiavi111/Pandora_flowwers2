@@ -62,86 +62,91 @@ export default async function HomePage() {
   return (
     <div className="page-enter">
       {/* ── HERO ── */}
-      <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-hero-gradient" />
-        <Image
-          src={HERO_IMAGE}
-          alt="Pandora Flowers"
-          fill
-          sizes="100vw"
-          className="object-cover opacity-45 mix-blend-luminosity"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/70" />
-        {/* Soft pink gradient bottom */}
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-pandora-blush/20 to-transparent pointer-events-none" />
+      <section className="relative min-h-[92vh] flex items-center overflow-hidden">
+        {/* Light pink-white gradient base */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white via-pandora-cream to-pandora-blush" />
 
-        <div className="relative z-10 container-site text-center text-white">
-          <div className="inline-flex items-center gap-4 mb-8">
-            <span className="w-10 h-px bg-pandora-rose/60" />
-            <span className="text-pandora-rose text-xs tracking-[0.4em] uppercase font-light">
-              Авторские букеты
-            </span>
-            <span className="w-10 h-px bg-pandora-rose/60" />
-          </div>
+        {/* Flower photo — right side, fading left */}
+        <div className="absolute inset-0">
+          <Image
+            src={HERO_IMAGE}
+            alt="Pandora Flowers"
+            fill
+            sizes="100vw"
+            className="object-cover object-center"
+            priority
+          />
+          {/* Fade photo to white on left */}
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/88 lg:via-white/70 to-white/10" />
+          {/* Soft blush tint */}
+          <div className="absolute inset-0 bg-gradient-to-br from-pandora-blush/50 via-pandora-blush/10 to-transparent" />
+          {/* Bottom fade to cream */}
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-pandora-cream to-transparent" />
+        </div>
 
-          <h1 className="font-serif text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-light tracking-[0.15em] mb-3 text-white">
-            PANDORA
-          </h1>
-          <div className="text-white/40 tracking-[0.6em] text-sm uppercase mb-8 font-light">
-            F L O W E R S
-          </div>
+        {/* Content — left aligned, dark text */}
+        <div className="relative z-10 container-site py-24">
+          <div className="max-w-xl">
+            <div className="flex items-center gap-4 mb-10">
+              <span className="w-10 h-px bg-pandora-rose/40" />
+              <span className="text-pandora-rose text-xs tracking-[0.4em] uppercase font-light">
+                Авторские букеты · Бишкек
+              </span>
+            </div>
 
-          <p className="text-white/70 text-lg md:text-xl font-light mb-10 max-w-lg mx-auto leading-relaxed">
-            Доставка авторских букетов по Бишкеку за 60 минут
-          </p>
+            <h1 className="font-serif text-7xl sm:text-8xl md:text-9xl font-light tracking-[0.12em] mb-3 text-pandora-dark leading-none">
+              PANDORA
+            </h1>
+            <div className="text-pandora-muted/50 tracking-[0.6em] text-sm uppercase mb-10 font-light">
+              F L O W E R S
+            </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/catalog"
-              className="inline-flex items-center gap-2 px-10 py-4 bg-pandora-rose text-white text-base font-medium rounded-sm hover:bg-white hover:text-pandora-dark transition-all duration-300"
-            >
-              Смотреть каталог
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href="/custom"
-              className="inline-flex items-center gap-2 px-10 py-4 border border-white/30 text-white text-base font-light rounded-sm hover:border-pandora-rose hover:text-pandora-rose transition-all duration-300"
-            >
-              Букет на заказ
-            </Link>
-          </div>
+            <p className="text-pandora-muted text-xl font-light mb-10 leading-relaxed max-w-sm">
+              Доставка авторских букетов по Бишкеку за 60 минут
+            </p>
 
-          {/* Stats */}
-          <div className="flex flex-wrap items-center justify-center gap-10 mt-16 pt-8 border-t border-white/10">
-            {[
-              { value: '81K', label: 'подписчиков' },
-              { value: '4.8', label: 'рейтинг' },
-              { value: '60 мин', label: 'доставка' },
-              { value: '5 лет', label: 'на рынке' },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="font-serif text-3xl font-light text-white">
-                  {stat.value}
+            <div className="flex flex-col sm:flex-row items-start gap-4">
+              <Link
+                href="/catalog"
+                className="inline-flex items-center gap-2 px-10 py-4 bg-pandora-dark text-white text-base font-medium rounded-sm hover:bg-pandora-rose transition-all duration-300"
+              >
+                Смотреть каталог
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/custom"
+                className="inline-flex items-center gap-2 px-10 py-4 border border-pandora-rose/50 text-pandora-rose text-base font-light rounded-sm hover:bg-pandora-rose hover:text-white transition-all duration-300"
+              >
+                Букет на заказ
+              </Link>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-10 mt-14 pt-8 border-t border-pandora-border">
+              {[
+                { value: '81K', label: 'подписчиков' },
+                { value: '4.8', label: 'рейтинг' },
+                { value: '60 мин', label: 'доставка' },
+                { value: '5 лет', label: 'на рынке' },
+              ].map((stat) => (
+                <div key={stat.label}>
+                  <div className="font-serif text-3xl font-light text-pandora-dark">{stat.value}</div>
+                  <div className="text-pandora-muted text-xs tracking-widest uppercase mt-1">{stat.label}</div>
                 </div>
-                <div className="text-white/40 text-xs tracking-widest uppercase mt-1">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-pandora-muted/30">
           <span className="text-xs tracking-widest uppercase">Прокрутите</span>
-          <div className="w-px h-8 bg-white/20 animate-pulse" />
+          <div className="w-px h-8 bg-pandora-rose/20 animate-pulse" />
         </div>
       </section>
 
       {/* ── USP STRIP ── */}
-      <section className="bg-pandora-dark py-4 border-y border-white/5">
+      <section className="bg-pandora-blush/60 border-y border-pandora-border py-4">
         <div className="container-site">
-          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12 text-white/50 text-xs tracking-wide">
+          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12 text-pandora-muted text-xs tracking-wide">
             {[
               { icon: <Truck className="w-3.5 h-3.5 text-pandora-rose" />, text: 'Доставка за 60 минут' },
               { icon: <Clock className="w-3.5 h-3.5 text-pandora-rose" />, text: 'Работаем 09:00–00:00' },
