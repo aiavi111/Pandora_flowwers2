@@ -221,7 +221,7 @@ export default async function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5">
               {/* large left */}
               <Link href={`/product/${heroProduct.slug}`}
-                className="md:col-span-7 group relative block media aspect-[16/13] md:aspect-auto shadow-card hover:shadow-card-hover transition-shadow duration-500"
+                className="md:col-span-7 group relative block media aspect-[4/3] md:aspect-auto md:h-[34rem] shadow-card hover:shadow-card-hover transition-shadow duration-500"
                 data-reveal>
                 <BrandImage src={heroProduct.images?.[0]?.url} alt={heroProduct.name}
                   tone={(heroProduct.colors?.split(',')[0] || 'mixed') as never}
@@ -241,10 +241,10 @@ export default async function HomePage() {
               </Link>
 
               {/* right column */}
-              <div className="md:col-span-5 grid grid-rows-2 gap-4 md:gap-5">
+              <div className="md:col-span-5 grid grid-rows-2 gap-4 md:gap-5 md:h-[34rem]">
                 {featured.slice(1, 3).map((p) => (
                   <Link key={p.id} href={`/product/${p.slug}`}
-                    className="group relative block media aspect-[16/9] md:aspect-auto shadow-card hover:shadow-card-hover transition-shadow duration-500"
+                    className="group relative block media aspect-[16/10] md:aspect-auto shadow-card hover:shadow-card-hover transition-shadow duration-500"
                     data-reveal>
                     <BrandImage src={p.images?.[0]?.url} alt={p.name}
                       tone={(p.colors?.split(',')[0] || 'mixed') as never}
