@@ -62,13 +62,13 @@ export default async function OrderPage({ params, searchParams }: Props) {
   const currentStep = ORDER_STATUS_INDEX[order.status] ?? 0;
 
   return (
-    <div className="bg-pandora-cream min-h-screen py-12">
+    <div className="bg-porcelain min-h-screen py-12">
       <div className="container-site max-w-3xl">
         {/* Success banner */}
         {success && (
-          <div className="bg-green-50 border border-green-200 rounded-sm p-6 mb-8 text-center">
+          <div className="bg-green-50 border border-green-200 rounded-card p-6 mb-8 text-center">
             <CheckCircle className="w-10 h-10 text-green-500 mx-auto mb-3" />
-            <h2 className="font-serif text-2xl text-green-800 mb-1">
+            <h2 className="text-2xl font-bold tracking-tight text-green-800 mb-1">
               Заказ оформлен!
             </h2>
             <p className="text-green-700 text-sm">
@@ -78,7 +78,7 @@ export default async function OrderPage({ params, searchParams }: Props) {
         )}
 
         {/* Order header */}
-        <div className="bg-white rounded-sm shadow-card p-6 mb-6">
+        <div className="bg-white rounded-card border border-line shadow-card p-6 mb-6">
           <div className="flex items-start justify-between flex-wrap gap-4">
             <div>
               <div className="text-pandora-muted text-xs uppercase tracking-wider mb-1">
@@ -100,7 +100,7 @@ export default async function OrderPage({ params, searchParams }: Props) {
 
         {/* Progress bar */}
         {!['cancelled'].includes(order.status) && (
-          <div className="bg-white rounded-sm shadow-card p-6 mb-6">
+          <div className="bg-white rounded-card border border-line shadow-card p-6 mb-6">
             <div className="relative">
               {/* Line */}
               <div className="absolute top-5 left-5 right-5 h-0.5 bg-pandora-border" />
@@ -140,7 +140,7 @@ export default async function OrderPage({ params, searchParams }: Props) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Items */}
-          <div className="bg-white rounded-sm shadow-card p-6">
+          <div className="bg-white rounded-card border border-line shadow-card p-6">
             <h2 className="font-serif text-xl text-pandora-dark mb-4">Состав заказа</h2>
             <div className="space-y-3">
               {order.items.map((item) => (
@@ -179,7 +179,7 @@ export default async function OrderPage({ params, searchParams }: Props) {
 
           {/* Delivery info */}
           <div className="space-y-4">
-            <div className="bg-white rounded-sm shadow-card p-6">
+            <div className="bg-white rounded-card border border-line shadow-card p-6">
               <h2 className="font-serif text-xl text-pandora-dark mb-4">Детали заказа</h2>
               <div className="space-y-3 text-sm">
                 <InfoRow label="Покупатель" value={order.customerName} />
@@ -211,14 +211,14 @@ export default async function OrderPage({ params, searchParams }: Props) {
             </div>
 
             {/* Contact */}
-            <div className="bg-pandora-dark rounded-sm p-5 text-white">
-              <div className="font-medium mb-3">Нужна помощь?</div>
-              <div className="text-pandora-blush/70 text-sm mb-4">
-                Наши менеджеры готовы помочь вам с любым вопросом по заказу
+            <div className="bg-ink rounded-card p-5 text-porcelain">
+              <div className="font-semibold mb-3">Нужна помощь?</div>
+              <div className="text-porcelain/60 text-sm mb-4">
+                Наши менеджеры готовы помочь с любым вопросом по заказу.
               </div>
               <a
                 href="tel:+996772070067"
-                className="flex items-center gap-2 text-pandora-gold hover:text-white transition-colors"
+                className="flex items-center gap-2 text-champagne hover:text-porcelain transition-colors"
               >
                 <Phone className="w-4 h-4" />
                 +996 772 07 00 67

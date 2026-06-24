@@ -36,7 +36,7 @@ export default async function AdminProductsPage() {
             Все ({products.length})
           </Link>
           {categories.map((cat) => (
-            <span key={cat.id} className="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs rounded-sm">
+            <span key={cat.id} className="px-3 py-1.5 bg-porcelain-deep text-ink-soft text-xs rounded-sm">
               {cat.name}
             </span>
           ))}
@@ -48,24 +48,24 @@ export default async function AdminProductsPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-sm shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-sm shadow-sm border border-line overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b border-gray-100">
+            <thead className="bg-porcelain-deep border-b border-line">
               <tr>
-                <th className="text-left px-4 py-3 text-gray-600 font-medium">Товар</th>
-                <th className="text-left px-4 py-3 text-gray-600 font-medium">Категория</th>
-                <th className="text-left px-4 py-3 text-gray-600 font-medium">Цена</th>
-                <th className="text-left px-4 py-3 text-gray-600 font-medium">В наличии</th>
-                <th className="text-left px-4 py-3 text-gray-600 font-medium">Заказы</th>
+                <th className="text-left px-4 py-3 text-ink-soft font-medium">Товар</th>
+                <th className="text-left px-4 py-3 text-ink-soft font-medium">Категория</th>
+                <th className="text-left px-4 py-3 text-ink-soft font-medium">Цена</th>
+                <th className="text-left px-4 py-3 text-ink-soft font-medium">В наличии</th>
+                <th className="text-left px-4 py-3 text-ink-soft font-medium">Заказы</th>
                 <th className="w-28" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-line">
               {products.map((product) => {
                 const image = product.images[0]?.url;
                 return (
-                  <tr key={product.id} className="hover:bg-gray-50 transition-colors">
+                  <tr key={product.id} className="hover:bg-porcelain-deep transition-colors">
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         {image && (
@@ -74,16 +74,16 @@ export default async function AdminProductsPage() {
                           </div>
                         )}
                         <div>
-                          <div className="font-medium text-gray-800 text-sm line-clamp-1">{product.name}</div>
-                          <div className="text-xs text-gray-400 font-mono">{product.slug}</div>
+                          <div className="font-medium text-ink text-sm line-clamp-1">{product.name}</div>
+                          <div className="text-xs text-ink-muted font-mono">{product.slug}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-gray-500">{product.category?.name}</td>
+                    <td className="px-4 py-3 text-ink-muted">{product.category?.name}</td>
                     <td className="px-4 py-3">
-                      <div className="font-semibold text-gray-800">{formatPrice(product.price)}</div>
+                      <div className="font-semibold text-ink">{formatPrice(product.price)}</div>
                       {product.oldPrice && (
-                        <div className="text-xs text-gray-400 line-through">{formatPrice(product.oldPrice)}</div>
+                        <div className="text-xs text-ink-muted line-through">{formatPrice(product.oldPrice)}</div>
                       )}
                     </td>
                     <td className="px-4 py-3">
@@ -93,20 +93,20 @@ export default async function AdminProductsPage() {
                         {product.inStock ? 'Да' : 'Нет'}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-gray-500">{product._count.orderItems}</td>
+                    <td className="px-4 py-3 text-ink-muted">{product._count.orderItems}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <Link
                           href={`/product/${product.slug}`}
                           target="_blank"
-                          className="p-1.5 text-gray-400 hover:text-pandora-rose transition-colors"
+                          className="p-1.5 text-ink-muted hover:text-pandora-rose transition-colors"
                           title="Просмотр"
                         >
                           <Eye className="w-4 h-4" />
                         </Link>
                         <Link
                           href={`/secure-admin/products/${product.id}`}
-                          className="p-1.5 text-gray-400 hover:text-pandora-rose transition-colors"
+                          className="p-1.5 text-ink-muted hover:text-pandora-rose transition-colors"
                           title="Редактировать"
                         >
                           <Edit className="w-4 h-4" />

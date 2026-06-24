@@ -100,11 +100,11 @@ export default function ProductFormClient({ categories, product }: ProductFormCl
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="max-w-3xl space-y-6">
       {/* Basic info */}
-      <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-6">
-        <h2 className="font-semibold text-gray-800 mb-5">Основная информация</h2>
+      <div className="bg-white rounded-sm shadow-sm border border-line p-6">
+        <h2 className="font-semibold text-ink mb-5">Основная информация</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Название *</label>
+            <label className="block text-sm font-medium text-ink-soft mb-1.5">Название *</label>
             <input
               {...register('name', { required: 'Введите название' })}
               className="input-field"
@@ -116,13 +116,13 @@ export default function ProductFormClient({ categories, product }: ProductFormCl
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">URL-slug *</label>
+            <label className="block text-sm font-medium text-ink-soft mb-1.5">URL-slug *</label>
             <input {...register('slug', { required: 'Введите slug' })} className="input-field font-mono text-sm" />
             {errors.slug && <p className="text-red-500 text-xs mt-1">{errors.slug.message}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Категория *</label>
+            <label className="block text-sm font-medium text-ink-soft mb-1.5">Категория *</label>
             <select {...register('categoryId', { required: true })} className="input-field">
               <option value="">Выберите категорию</option>
               {categories.map((c) => (
@@ -132,7 +132,7 @@ export default function ProductFormClient({ categories, product }: ProductFormCl
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Размер</label>
+            <label className="block text-sm font-medium text-ink-soft mb-1.5">Размер</label>
             <select {...register('size')} className="input-field">
               <option value="small">Маленький</option>
               <option value="medium">Средний</option>
@@ -142,23 +142,23 @@ export default function ProductFormClient({ categories, product }: ProductFormCl
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Цена (сом) *</label>
+            <label className="block text-sm font-medium text-ink-soft mb-1.5">Цена (сом) *</label>
             <input {...register('price', { required: true, min: 1 })} type="number" className="input-field" />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Старая цена (сом)</label>
+            <label className="block text-sm font-medium text-ink-soft mb-1.5">Старая цена (сом)</label>
             <input {...register('oldPrice')} type="number" className="input-field" placeholder="0 = нет скидки" />
           </div>
         </div>
       </div>
 
       {/* Description */}
-      <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-6">
-        <h2 className="font-semibold text-gray-800 mb-5">Описание</h2>
+      <div className="bg-white rounded-sm shadow-sm border border-line p-6">
+        <h2 className="font-semibold text-ink mb-5">Описание</h2>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Описание *</label>
+            <label className="block text-sm font-medium text-ink-soft mb-1.5">Описание *</label>
             <textarea
               {...register('description', { required: true })}
               className="input-field resize-none"
@@ -166,7 +166,7 @@ export default function ProductFormClient({ categories, product }: ProductFormCl
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Состав</label>
+            <label className="block text-sm font-medium text-ink-soft mb-1.5">Состав</label>
             <textarea
               {...register('composition')}
               className="input-field resize-none"
@@ -178,34 +178,34 @@ export default function ProductFormClient({ categories, product }: ProductFormCl
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-6">
-        <h2 className="font-semibold text-gray-800 mb-5">Фильтры и теги</h2>
+      <div className="bg-white rounded-sm shadow-sm border border-line p-6">
+        <h2 className="font-semibold text-ink mb-5">Фильтры и теги</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Цвета (через запятую)</label>
+            <label className="block text-sm font-medium text-ink-soft mb-1.5">Цвета (через запятую)</label>
             <input {...register('colors')} className="input-field" placeholder="red,white,pink" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Цветы (через запятую)</label>
+            <label className="block text-sm font-medium text-ink-soft mb-1.5">Цветы (через запятую)</label>
             <input {...register('flowers')} className="input-field" placeholder="rose,peony" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Поводы (через запятую)</label>
+            <label className="block text-sm font-medium text-ink-soft mb-1.5">Поводы (через запятую)</label>
             <input {...register('occasion')} className="input-field" placeholder="birthday,romance" />
           </div>
         </div>
       </div>
 
       {/* Images */}
-      <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-6">
-        <h2 className="font-semibold text-gray-800 mb-5">Фотографии</h2>
+      <div className="bg-white rounded-sm shadow-sm border border-line p-6">
+        <h2 className="font-semibold text-ink mb-5">Фотографии</h2>
 
         <div className="flex gap-2 mb-4">
           <input
             value={newImageUrl}
             onChange={(e) => setNewImageUrl(e.target.value)}
             className="input-field flex-1"
-            placeholder="https://images.unsplash.com/photo-..."
+            placeholder="/images/products/<slug>-1.jpg"
           />
           <button
             type="button"
@@ -245,8 +245,8 @@ export default function ProductFormClient({ categories, product }: ProductFormCl
       </div>
 
       {/* Flags */}
-      <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-6">
-        <h2 className="font-semibold text-gray-800 mb-5">Статус и теги</h2>
+      <div className="bg-white rounded-sm shadow-sm border border-line p-6">
+        <h2 className="font-semibold text-ink mb-5">Статус и теги</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { name: 'inStock', label: 'В наличии' },
@@ -260,7 +260,7 @@ export default function ProductFormClient({ categories, product }: ProductFormCl
                 {...register(flag.name as keyof ProductFormData)}
                 className="w-4 h-4 accent-pandora-rose"
               />
-              <span className="text-sm text-gray-700">{flag.label}</span>
+              <span className="text-sm text-ink-soft">{flag.label}</span>
             </label>
           ))}
         </div>

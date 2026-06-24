@@ -1,109 +1,67 @@
-import { MapPin, Phone, Clock, Instagram, MessageCircle, Send } from 'lucide-react';
+import { MapPin, Phone, Clock, Instagram, MessageCircle, Send, ArrowUpRight } from 'lucide-react';
 import type { Metadata } from 'next';
+import ContactForm from '@/components/shop/ContactForm';
 
 export const metadata: Metadata = {
   title: 'Контакты',
-  description: 'Контакты Pandora Flowers. Адрес: ул. Токтогула 112/1, БЦ Сфера, Бишкек. Телефон: +996 772 07 00 67',
+  description: 'Контакты Pandora Flowers. Адрес: ул. Токтогула 112/1, БЦ «Сфера», Бишкек. Телефон: +996 772 07 00 67. Доставка цветов за 60 минут.',
 };
 
 export default function ContactsPage() {
   return (
-    <div className="bg-pandora-cream">
-      <div className="bg-white border-b border-pandora-border">
-        <div className="container-site py-8">
-          <div className="section-subtitle mb-3">Связаться с нами</div>
-          <h1 className="section-title">Контакты</h1>
+    <div className="bg-porcelain min-h-screen">
+      <div className="bg-porcelain-fade border-b border-line">
+        <div className="container-site py-10 md:py-14">
+          <div className="section-subtitle mb-3">Свяжитесь с нами</div>
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-ink">Контакты</h1>
+          <p className="text-ink-soft mt-3 max-w-xl">Поможем выбрать букет, оформить доставку или собрать композицию на заказ. Мы на связи каждый день.</p>
         </div>
       </div>
 
-      <div className="container-site py-16">
+      <div className="container-site py-14">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Info */}
-          <div>
-            <div className="space-y-8">
-              <ContactBlock
-                icon={<Phone className="w-6 h-6 text-pandora-gold" />}
-                title="Телефон"
-              >
-                <a href="tel:+996772070067" className="text-lg font-medium text-pandora-dark hover:text-pandora-rose transition-colors">
-                  +996 772 07 00 67
-                </a>
-                <div className="text-pandora-muted text-sm mt-1">Звоните или пишите в WhatsApp</div>
-              </ContactBlock>
-
-              <ContactBlock
-                icon={<MapPin className="w-6 h-6 text-pandora-gold" />}
-                title="Адрес"
-              >
-                <div className="text-pandora-dark font-medium">ул. Токтогула 112/1</div>
-                <div className="text-pandora-muted">БЦ Сфера, Бишкек, Кыргызстан</div>
-                <div className="text-pandora-muted text-sm mt-1">2 магазина в городе</div>
-              </ContactBlock>
-
-              <ContactBlock
-                icon={<Clock className="w-6 h-6 text-pandora-gold" />}
-                title="Режим работы"
-              >
-                <div className="text-pandora-dark font-medium">Ежедневно 09:00–00:00</div>
-                <div className="text-pandora-muted text-sm mt-1">Доставка по Бишкеку за 60 минут</div>
-              </ContactBlock>
-
-              <ContactBlock
-                icon={<Instagram className="w-6 h-6 text-pandora-gold" />}
-                title="Социальные сети"
-              >
-                <div className="flex gap-3 mt-2">
-                  <a
-                    href="https://instagram.com/pandora__flowers"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-pandora-dark text-white text-sm rounded-sm hover:bg-pandora-rose transition-colors"
-                  >
-                    <Instagram className="w-4 h-4" />
-                    Instagram
-                  </a>
-                  <a
-                    href="https://wa.me/996772070067"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white text-sm rounded-sm hover:bg-green-700 transition-colors"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                    WhatsApp
-                  </a>
-                  <a
-                    href="https://t.me/pandora__flowers"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-sky-500 text-white text-sm rounded-sm hover:bg-sky-600 transition-colors"
-                  >
-                    <Send className="w-4 h-4" />
-                    Telegram
-                  </a>
-                </div>
-              </ContactBlock>
+          {/* Left: info + socials */}
+          <div className="space-y-8">
+            <div className="grid sm:grid-cols-2 gap-4">
+              <InfoCard icon={Phone} title="Телефон">
+                <a href="tel:+996772070067" className="text-lg font-semibold text-ink hover:text-accent transition-colors">+996 772 07 00 67</a>
+                <div className="text-ink-muted text-sm mt-1">Звонки и WhatsApp</div>
+              </InfoCard>
+              <InfoCard icon={Clock} title="Режим работы">
+                <div className="text-ink font-semibold">Ежедневно 09:00–00:00</div>
+                <div className="text-ink-muted text-sm mt-1">Доставка за 60 минут</div>
+              </InfoCard>
+              <InfoCard icon={MapPin} title="Адрес" wide>
+                <div className="text-ink font-semibold">ул. Токтогула 112/1</div>
+                <div className="text-ink-muted">БЦ «Сфера», Бишкек, Кыргызстан</div>
+              </InfoCard>
             </div>
+
+            <div>
+              <div className="section-subtitle mb-3">Мессенджеры</div>
+              <div className="flex flex-wrap gap-3">
+                <a href="https://instagram.com/pandora__flowers" target="_blank" rel="noopener noreferrer" className="btn-outline btn-sm"><Instagram className="w-4 h-4" /> Instagram</a>
+                <a href="https://wa.me/996772070067" target="_blank" rel="noopener noreferrer" className="btn-primary btn-sm"><MessageCircle className="w-4 h-4" /> WhatsApp</a>
+                <a href="https://t.me/pandora__flowers" target="_blank" rel="noopener noreferrer" className="btn-outline btn-sm"><Send className="w-4 h-4" /> Telegram</a>
+              </div>
+            </div>
+
+            <ContactForm />
           </div>
 
-          {/* Map placeholder */}
-          <div>
-            <div className="bg-white rounded-sm shadow-card overflow-hidden">
-              <div className="aspect-square bg-pandora-border relative flex items-center justify-center">
-                <div className="text-center text-pandora-muted">
-                  <MapPin className="w-12 h-12 text-pandora-rose/30 mx-auto mb-3" />
-                  <div className="font-medium">ул. Токтогула 112/1</div>
-                  <div className="text-sm">БЦ Сфера, Бишкек</div>
+          {/* Right: map */}
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <div className="bg-white rounded-card border border-line shadow-card overflow-hidden">
+              <div className="aspect-[4/5] relative grid place-items-center bg-gradient-to-br from-porcelain-deep to-accent-soft/50">
+                <div className="text-center">
+                  <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-white shadow-soft grid place-items-center"><MapPin className="w-6 h-6 text-accent" /></div>
+                  <div className="font-semibold text-ink">ул. Токтогула 112/1</div>
+                  <div className="text-sm text-ink-soft">БЦ «Сфера», Бишкек</div>
                 </div>
-                {/* You can embed a real Yandex/Google map iframe here */}
               </div>
-              <div className="p-4 bg-white text-center">
-                <a
-                  href="https://yandex.com/maps/org/pandora_flowers/27232024814/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-secondary text-sm"
-                >
-                  Открыть на карте
+              <div className="p-4 border-t border-line">
+                <a href="https://yandex.com/maps/org/pandora_flowers/27232024814/" target="_blank" rel="noopener noreferrer" className="btn-outline w-full">
+                  Открыть на карте <ArrowUpRight className="w-4 h-4" />
                 </a>
               </div>
             </div>
@@ -114,24 +72,12 @@ export default function ContactsPage() {
   );
 }
 
-function ContactBlock({
-  icon,
-  title,
-  children,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  children: React.ReactNode;
-}) {
+function InfoCard({ icon: Icon, title, children, wide }: { icon: React.ElementType; title: string; children: React.ReactNode; wide?: boolean }) {
   return (
-    <div className="flex gap-4">
-      <div className="w-12 h-12 bg-pandora-blush/30 rounded-sm flex items-center justify-center flex-shrink-0">
-        {icon}
-      </div>
-      <div>
-        <div className="text-xs text-pandora-muted uppercase tracking-wider mb-1">{title}</div>
-        {children}
-      </div>
+    <div className={`bg-white rounded-card border border-line shadow-card p-5 ${wide ? 'sm:col-span-2' : ''}`}>
+      <div className="w-11 h-11 rounded-full bg-accent-soft grid place-items-center mb-4"><Icon className="w-5 h-5 text-accent-deep" strokeWidth={1.6} /></div>
+      <div className="text-xs text-ink-muted uppercase tracking-[0.14em] mb-1.5">{title}</div>
+      {children}
     </div>
   );
 }

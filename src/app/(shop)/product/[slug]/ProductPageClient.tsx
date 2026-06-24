@@ -1,20 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
+import { BrandImage } from '@/components/ui/BrandImage';
 import {
-  Heart,
-  ShoppingBag,
-  Zap,
-  Truck,
-  Clock,
-  Award,
-  Star,
-  ChevronRight,
-  Plus,
-  Minus,
-  Phone,
+  Heart, ShoppingBag, Zap, Truck, Gift, Clock, Star, ChevronRight, Plus, Minus, Phone, Check,
 } from 'lucide-react';
 import { Product } from '@/types';
 import { useCartStore } from '@/store/cart';
@@ -28,399 +18,222 @@ interface ProductPageClientProps {
   relatedProducts: Product[];
 }
 
+const SIZE_LABELS: Record<string, string> = { small: 'Маленький', medium: 'Средний', large: 'Большой', xl: 'XL' };
+const OCC_LABELS: Record<string, string> = { birthday: 'День рождения', anniversary: 'Годовщина', romance: 'Романтика', wedding: 'Свадьба', march8: '8 марта', holiday: 'Праздник', housewarming: 'Новоселье', condolence: 'Соболезнование' };
+
 export default function ProductPageClient({ product, relatedProducts }: ProductPageClientProps) {
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [quantity, setQuantity] = useState(1);
+  const [selected, setSelected] = useState(0);
+  const [qty, setQty] = useState(1);
   const { addItem } = useCartStore();
   const { toggle, isFavorite } = useFavoritesStore();
 
   const isLiked = isFavorite(product.id);
-  const avgRating = product.reviews.length
-    ? product.reviews.reduce((s, r) => s + r.rating, 0) / product.reviews.length
-    : null;
-
+  const tone = (product.colors?.split(',')[0]?.trim() || 'mixed') as never;
+  const hasPrice = product.price > 0;
+  const avgRating = product.reviews.length ? product.reviews.reduce((s, r) => s + r.rating, 0) / product.reviews.length : null;
   const colors = product.colors?.split(',').filter(Boolean) ?? [];
   const flowers = product.flowers?.split(',').filter(Boolean) ?? [];
   const occasions = product.occasion?.split(',').filter(Boolean) ?? [];
+  const discount = product.oldPrice && hasPrice ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : null;
 
-  const handleAddToCart = () => {
-    addItem(product, quantity);
-    toast.success(`${product.name} × ${quantity} добавлен в корзину`);
-  };
-
-  const handleBuyNow = () => {
-    addItem(product, quantity);
-    window.location.href = '/checkout';
-  };
-
-  const handleFavorite = () => {
-    toggle(product.id);
-    toast(isLiked ? 'Удалено из избранного' : 'Добавлено в избранное', {
-      icon: isLiked ? '💔' : '❤️',
-    });
-  };
-
-  const discount = product.oldPrice
-    ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
-    : null;
+  const addToCart = () => { addItem(product, qty); toast.success(`«${product.name}» × ${qty} в корзине`); };
+  const buyNow = () => { addItem(product, qty); window.location.href = '/checkout'; };
+  const fav = () => { toggle(product.id); toast(isLiked ? 'Удалено из избранного' : 'В избранном', { icon: isLiked ? '🤍' : '🩷' }); };
 
   return (
-    <div className="bg-pandora-cream">
+    <div className="bg-porcelain">
       {/* Breadcrumb */}
-      <div className="bg-white border-b border-pandora-border">
-        <div className="container-site py-3">
-          <nav className="flex items-center gap-2 text-xs text-pandora-muted">
-            <Link href="/" className="hover:text-pandora-rose transition-colors">Главная</Link>
+      <div className="border-b border-line bg-white">
+        <div className="container-site py-3.5">
+          <nav className="flex items-center gap-2 text-xs text-ink-muted">
+            <Link href="/" className="hover:text-accent transition-colors">Главная</Link>
             <ChevronRight className="w-3 h-3" />
-            <Link href="/catalog" className="hover:text-pandora-rose transition-colors">Каталог</Link>
-            {product.category && (
-              <>
-                <ChevronRight className="w-3 h-3" />
-                <Link
-                  href={`/catalog?category=${product.category.slug}`}
-                  className="hover:text-pandora-rose transition-colors"
-                >
-                  {product.category.name}
-                </Link>
-              </>
-            )}
+            <Link href="/catalog" className="hover:text-accent transition-colors">Каталог</Link>
+            {product.category && (<>
+              <ChevronRight className="w-3 h-3" />
+              <Link href={`/catalog/${product.category.slug}`} className="hover:text-accent transition-colors">{product.category.name}</Link>
+            </>)}
             <ChevronRight className="w-3 h-3" />
-            <span className="text-pandora-text truncate max-w-[200px]">{product.name}</span>
+            <span className="text-ink-soft truncate max-w-[180px]">{product.name}</span>
           </nav>
         </div>
       </div>
 
       <div className="container-site py-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-16">
-          {/* ── IMAGE GALLERY ── */}
-          <div className="space-y-4">
-            {/* Main image */}
-            <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-white shadow-card">
-              {product.images[selectedImage] && (
-                <Image
-                  src={product.images[selectedImage].url}
-                  alt={product.images[selectedImage].alt ?? product.name}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                  priority
-                />
-              )}
-
-              {/* Badges */}
-              <div className="absolute top-4 left-4 flex flex-col gap-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 xl:gap-16">
+          {/* Gallery */}
+          <div className="lg:sticky lg:top-28 lg:self-start space-y-4">
+            <div className="media aspect-[4/5] shadow-soft">
+              <BrandImage src={product.images[selected]?.url} alt={product.images[selected]?.alt ?? product.name}
+                tone={tone} label={product.category?.name} priority sizes="(max-width: 1024px) 100vw, 50vw" />
+              <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
                 {product.isNew && <span className="badge-new">Новинка</span>}
                 {product.isPopular && <span className="badge-popular">Хит продаж</span>}
                 {discount && <span className="badge-sale">−{discount}%</span>}
               </div>
-
-              {/* Favorite */}
-              <button
-                onClick={handleFavorite}
-                className={cn(
-                  'absolute top-4 right-4 w-10 h-10 rounded-full shadow-md flex items-center justify-center transition-all duration-200',
-                  isLiked
-                    ? 'bg-pandora-rose text-white scale-110'
-                    : 'bg-white text-pandora-muted hover:text-pandora-rose hover:scale-110'
-                )}
-              >
-                <Heart className="w-5 h-5" fill={isLiked ? 'currentColor' : 'none'} />
+              <button onClick={fav} className={cn('absolute top-4 right-4 w-11 h-11 grid place-items-center rounded-full glass-card transition-all z-10',
+                isLiked ? 'text-accent scale-105' : 'text-ink/70 hover:text-accent hover:scale-105')} aria-label="В избранное">
+                <Heart className="w-5 h-5" fill={isLiked ? 'currentColor' : 'none'} strokeWidth={1.8} />
               </button>
             </div>
-
-            {/* Thumbnails */}
             {product.images.length > 1 && (
               <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-1">
                 {product.images.map((img, i) => (
-                  <button
-                    key={img.id}
-                    onClick={() => setSelectedImage(i)}
-                    className={cn(
-                      'relative w-20 h-24 flex-shrink-0 rounded-sm overflow-hidden transition-all duration-200',
-                      selectedImage === i
-                        ? 'ring-2 ring-pandora-rose ring-offset-2'
-                        : 'opacity-60 hover:opacity-100'
-                    )}
-                  >
-                    <Image
-                      src={img.url}
-                      alt={img.alt ?? product.name}
-                      fill
-                      sizes="80px"
-                      className="object-cover"
-                    />
+                  <button key={img.id} onClick={() => setSelected(i)}
+                    className={cn('relative w-20 h-24 flex-shrink-0 rounded-input overflow-hidden transition-all duration-200',
+                      selected === i ? 'ring-2 ring-ink ring-offset-2 ring-offset-porcelain' : 'opacity-60 hover:opacity-100')}>
+                    <BrandImage src={img.url} alt={img.alt ?? product.name} tone={tone} sizes="80px" />
                   </button>
                 ))}
               </div>
             )}
           </div>
 
-          {/* ── PRODUCT INFO ── */}
-          <div>
-            {/* Category */}
-            <div className="text-pandora-muted text-xs uppercase tracking-wider mb-2">
-              {product.category?.name}
-            </div>
+          {/* Info */}
+          <div className="lg:py-2">
+            <div className="section-subtitle mb-3">{product.category?.name}</div>
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-ink leading-tight mb-4">{product.name}</h1>
 
-            {/* Title */}
-            <h1 className="font-serif text-3xl md:text-4xl text-pandora-dark mb-4 leading-tight">
-              {product.name}
-            </h1>
-
-            {/* Rating */}
             {avgRating !== null && (
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-2 mb-5">
                 <div className="flex items-center gap-0.5">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className={cn(
-                        'w-4 h-4',
-                        i < Math.round(avgRating)
-                          ? 'text-pandora-gold fill-pandora-gold'
-                          : 'text-pandora-border'
-                      )}
-                    />
+                    <Star key={i} className={cn('w-4 h-4', i < Math.round(avgRating) ? 'text-champagne fill-champagne' : 'text-line')} />
                   ))}
                 </div>
-                <span className="text-sm text-pandora-muted">
-                  {avgRating.toFixed(1)} ({product.reviews.length} отзывов)
-                </span>
+                <span className="text-sm text-ink-muted">{avgRating.toFixed(1)} · {product.reviews.length} отзывов</span>
               </div>
             )}
 
-            {/* Price */}
             <div className="flex items-baseline gap-3 mb-6">
-              <span className="font-serif text-4xl text-pandora-rose font-semibold">
-                {formatPrice(product.price)}
-              </span>
-              {product.oldPrice && (
-                <span className="text-pandora-muted text-lg line-through">
-                  {formatPrice(product.oldPrice)}
-                </span>
-              )}
-              {discount && (
-                <span className="text-sm bg-red-100 text-red-600 px-2 py-0.5 rounded-sm font-medium">
-                  Скидка {discount}%
-                </span>
+              {hasPrice ? (<>
+                <span className="text-4xl font-bold tracking-tight text-ink">{formatPrice(product.price)}</span>
+                {product.oldPrice && <span className="text-ink-muted text-lg line-through">{formatPrice(product.oldPrice)}</span>}
+                {discount && <span className="badge-sale">−{discount}%</span>}
+              </>) : (
+                <span className="text-2xl font-bold text-accent-deep">Цена по запросу</span>
               )}
             </div>
 
-            {/* Description */}
-            <p className="text-pandora-text leading-relaxed mb-6">
-              {product.description}
-            </p>
+            <p className="text-ink-soft leading-relaxed mb-6">{product.description}</p>
 
-            {/* Composition */}
             {product.composition && (
-              <div className="bg-pandora-blush/30 rounded-sm p-4 mb-6">
-                <div className="text-xs font-semibold text-pandora-rose uppercase tracking-wider mb-2">
-                  Состав
-                </div>
-                <p className="text-sm text-pandora-text">{product.composition}</p>
+              <div className="bg-accent-soft/50 border border-accent-soft rounded-card p-5 mb-6">
+                <div className="text-xs font-semibold text-accent-deep uppercase tracking-[0.14em] mb-2">Состав</div>
+                <p className="text-sm text-ink">{product.composition}</p>
               </div>
             )}
 
-            {/* Details */}
-            <div className="grid grid-cols-2 gap-3 mb-6">
-              {product.size && (
-                <div className="text-sm">
-                  <span className="text-pandora-muted">Размер: </span>
-                  <span className="text-pandora-text font-medium">
-                    {{ small: 'Маленький', medium: 'Средний', large: 'Большой', xl: 'XL' }[product.size] ?? product.size}
-                  </span>
-                </div>
-              )}
-              {colors.length > 0 && (
-                <div className="text-sm">
-                  <span className="text-pandora-muted">Цвета: </span>
-                  <span className="text-pandora-text font-medium">
-                    {colors.map((c) => FLOWER_COLORS[c] ?? c).join(', ')}
-                  </span>
-                </div>
-              )}
-              {flowers.length > 0 && (
-                <div className="text-sm col-span-2">
-                  <span className="text-pandora-muted">Цветы: </span>
-                  <span className="text-pandora-text font-medium capitalize">
-                    {flowers.join(', ')}
-                  </span>
-                </div>
-              )}
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2 mb-7 text-sm">
+              {product.size && <Detail label="Размер" value={SIZE_LABELS[product.size] ?? product.size} />}
+              {colors.length > 0 && <Detail label="Цвета" value={colors.map((c) => FLOWER_COLORS[c] ?? c).join(', ')} />}
+              {flowers.length > 0 && <div className="col-span-2"><Detail label="Цветы" value={flowers.join(', ')} cap /></div>}
             </div>
 
-            {/* Occasions */}
             {occasions.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-6">
-                {occasions.map((occ) => (
-                  <span
-                    key={occ}
-                    className="px-3 py-1 bg-white border border-pandora-border text-pandora-muted text-xs rounded-full"
-                  >
-                    {({ birthday: 'День рождения', anniversary: 'Годовщина', romance: 'Романтика', wedding: 'Свадьба', march8: '8 марта', holiday: 'Праздник' } as Record<string, string>)[occ] ?? occ}
-                  </span>
+              <div className="flex flex-wrap gap-2 mb-7">
+                {occasions.map((o) => (
+                  <span key={o} className="px-3 py-1 bg-white border border-line text-ink-soft text-xs rounded-pill">{OCC_LABELS[o] ?? o}</span>
                 ))}
               </div>
             )}
 
-            {/* Quantity */}
-            <div className="flex items-center gap-4 mb-6">
-              <span className="text-sm text-pandora-muted">Количество:</span>
-              <div className="flex items-center border border-pandora-border rounded-sm overflow-hidden">
-                <button
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="w-10 h-10 flex items-center justify-center hover:bg-pandora-border transition-colors"
-                >
-                  <Minus className="w-4 h-4 text-pandora-muted" />
-                </button>
-                <span className="w-12 text-center font-medium">{quantity}</span>
-                <button
-                  onClick={() => setQuantity(quantity + 1)}
-                  className="w-10 h-10 flex items-center justify-center hover:bg-pandora-border transition-colors"
-                >
-                  <Plus className="w-4 h-4 text-pandora-muted" />
-                </button>
+            {/* Quantity + actions */}
+            <div className="flex items-center gap-4 mb-5">
+              <span className="text-sm text-ink-muted">Количество</span>
+              <div className="flex items-center border border-line rounded-pill overflow-hidden">
+                <button onClick={() => setQty(Math.max(1, qty - 1))} className="w-10 h-10 grid place-items-center hover:bg-porcelain-deep transition-colors"><Minus className="w-4 h-4 text-ink-soft" /></button>
+                <span className="w-12 text-center font-semibold">{qty}</span>
+                <button onClick={() => setQty(qty + 1)} className="w-10 h-10 grid place-items-center hover:bg-porcelain-deep transition-colors"><Plus className="w-4 h-4 text-ink-soft" /></button>
               </div>
-              <span className="text-pandora-rose font-semibold">
-                = {formatPrice(product.price * quantity)}
-              </span>
+              {hasPrice && <span className="text-ink font-semibold ml-auto">{formatPrice(product.price * qty)}</span>}
             </div>
 
-            {/* Actions */}
             {product.inStock ? (
               <div className="flex flex-col sm:flex-row gap-3 mb-6">
-                <button
-                  onClick={handleAddToCart}
-                  className="btn-secondary flex-1 text-base py-4"
-                >
-                  <ShoppingBag className="w-5 h-5" />
-                  В корзину
-                </button>
-                <button
-                  onClick={handleBuyNow}
-                  className="btn-primary flex-1 text-base py-4"
-                >
-                  <Zap className="w-5 h-5" />
-                  Купить сейчас
-                </button>
+                {hasPrice ? (<>
+                  <button onClick={addToCart} className="btn-outline flex-1 btn-lg"><ShoppingBag className="w-5 h-5" /> В корзину</button>
+                  <button onClick={buyNow} className="btn-primary flex-1 btn-lg"><Zap className="w-5 h-5" /> Купить сейчас</button>
+                </>) : (
+                  <a href={`https://wa.me/996772070067?text=${encodeURIComponent('Здравствуйте! Хочу узнать цену: ' + product.name)}`} target="_blank" rel="noopener noreferrer" className="btn-primary flex-1 btn-lg">
+                    <Phone className="w-5 h-5" /> Узнать цену
+                  </a>
+                )}
               </div>
             ) : (
-              <div className="bg-gray-100 text-gray-500 text-center py-4 rounded-sm mb-6 font-medium">
-                Нет в наличии
-              </div>
+              <div className="bg-porcelain-deep text-ink-muted text-center py-4 rounded-pill mb-6 font-medium">Нет в наличии</div>
             )}
 
-            {/* Features */}
-            <div className="grid grid-cols-1 gap-3 pt-6 border-t border-pandora-border">
+            {/* Trust features */}
+            <div className="grid gap-3.5 pt-6 border-t border-line">
               {[
-                {
-                  icon: <Truck className="w-5 h-5 text-pandora-gold" />,
-                  title: 'Доставка за 60 минут',
-                  desc: 'По всему Бишкеку • Фотоотчёт перед отправкой',
-                },
-                {
-                  icon: <Award className="w-5 h-5 text-pandora-gold" />,
-                  title: 'Шоколад в подарок',
-                  desc: 'Фирменный бельгийский шоколад к каждому букету',
-                },
-                {
-                  icon: <Clock className="w-5 h-5 text-pandora-gold" />,
-                  title: 'Работаем 09:00–00:00',
-                  desc: 'Закажите в любое удобное время без выходных',
-                },
-              ].map((feat, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="w-8 flex-shrink-0 mt-0.5">{feat.icon}</div>
-                  <div>
-                    <div className="text-sm font-medium text-pandora-dark">{feat.title}</div>
-                    <div className="text-xs text-pandora-muted">{feat.desc}</div>
-                  </div>
+                { icon: Truck, t: 'Доставка за 60 минут', d: 'По всему Бишкеку · фотоотчёт перед отправкой' },
+                { icon: Gift, t: 'Шоколад в подарок', d: 'Фирменный бельгийский шоколад к каждому букету' },
+                { icon: Clock, t: 'Работаем 09:00–00:00', d: 'Закажите в любое удобное время, без выходных' },
+              ].map((f) => (
+                <div key={f.t} className="flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-full bg-accent-soft grid place-items-center flex-shrink-0"><f.icon className="w-5 h-5 text-accent-deep" strokeWidth={1.6} /></div>
+                  <div><div className="text-sm font-semibold text-ink">{f.t}</div><div className="text-xs text-ink-muted">{f.d}</div></div>
                 </div>
               ))}
             </div>
 
-            {/* WhatsApp */}
-            <div className="mt-6 pt-6 border-t border-pandora-border">
-              <a
-                href={`https://wa.me/996772070067?text=Хочу заказать: ${product.name}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 text-sm text-pandora-muted hover:text-green-600 transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-                Заказать через WhatsApp
-              </a>
+            <div className="mt-6 pt-6 border-t border-line flex flex-wrap gap-4">
+              <a href={`https://wa.me/996772070067?text=${encodeURIComponent('Хочу заказать: ' + product.name)}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-ink-soft hover:text-accent transition-colors"><Phone className="w-4 h-4" /> Заказать в WhatsApp</a>
+              <a href="https://t.me/pandora__flowers" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-ink-soft hover:text-accent transition-colors">Заказать в Telegram</a>
             </div>
           </div>
         </div>
 
-        {/* ── REVIEWS ── */}
-        <div className="mt-16">
-          <h2 className="font-serif text-3xl text-pandora-dark mb-8">
-            Отзывы ({product.reviews.length})
-          </h2>
-
+        {/* Reviews */}
+        <div className="mt-20">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-ink mb-8">Отзывы {product.reviews.length > 0 && <span className="text-ink-muted font-normal">({product.reviews.length})</span>}</h2>
           {product.reviews.length === 0 ? (
-            <div className="text-center py-12 bg-white rounded-sm">
-              <div className="text-4xl mb-3">💬</div>
-              <p className="text-pandora-muted">Отзывов пока нет. Будьте первым!</p>
+            <div className="text-center py-14 bg-white rounded-card border border-line">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-accent-soft grid place-items-center"><Check className="w-6 h-6 text-accent-deep" /></div>
+              <p className="text-ink-soft">Отзывов пока нет — станьте первым!</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {product.reviews.map((review) => (
-                <div key={review.id} className="bg-white p-6 rounded-sm shadow-card">
+              {product.reviews.map((r) => (
+                <div key={r.id} className="bg-white p-6 rounded-card border border-line shadow-card">
                   <div className="flex items-center justify-between mb-3">
-                    <div className="font-medium text-pandora-dark">{review.customer?.name ?? 'Покупатель'}</div>
-                    <div className="flex items-center gap-0.5">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <Star
-                          key={i}
-                          className={cn(
-                            'w-3.5 h-3.5',
-                            i < review.rating
-                              ? 'text-pandora-gold fill-pandora-gold'
-                              : 'text-pandora-border'
-                          )}
-                        />
-                      ))}
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-accent-soft grid place-items-center text-accent-deep font-semibold text-sm">{(r.customer?.name ?? 'К')[0]}</div>
+                      <div className="font-semibold text-ink text-sm">{r.customer?.name ?? 'Покупатель'}</div>
                     </div>
+                    <div className="flex gap-0.5">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={cn('w-3.5 h-3.5', i < r.rating ? 'text-champagne fill-champagne' : 'text-line')} />)}</div>
                   </div>
-                  {review.text && (
-                    <p className="text-pandora-text text-sm leading-relaxed">{review.text}</p>
-                  )}
-                  <div className="text-xs text-pandora-muted mt-3">
-                    {new Date(review.createdAt).toLocaleDateString('ru-RU', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
-                    })}
-                  </div>
+                  {r.text && <p className="text-ink-soft text-sm leading-relaxed">{r.text}</p>}
+                  <div className="text-xs text-ink-muted mt-3">{new Date(r.createdAt).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        {/* ── RELATED ── */}
+        {/* Related */}
         {relatedProducts.length > 0 && (
-          <div className="mt-16">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="font-serif text-3xl text-pandora-dark">Похожие букеты</h2>
-              <Link
-                href={`/catalog?category=${product.category?.slug}`}
-                className="text-pandora-rose text-sm hover:underline"
-              >
-                Смотреть все →
-              </Link>
+          <div className="mt-20">
+            <div className="flex items-end justify-between mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-ink">Похожие букеты</h2>
+              <Link href={`/catalog/${product.category?.slug}`} className="link-underline text-sm font-medium text-ink hover:text-accent">Смотреть все →</Link>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-              {relatedProducts.map((p) => (
-                <ProductCard key={p.id} product={p} />
-              ))}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+              {relatedProducts.map((p) => <ProductCard key={p.id} product={p} />)}
             </div>
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function Detail({ label, value, cap }: { label: string; value: string; cap?: boolean }) {
+  return (
+    <div>
+      <span className="text-ink-muted">{label}: </span>
+      <span className={cn('text-ink font-medium', cap && 'capitalize')}>{value}</span>
     </div>
   );
 }

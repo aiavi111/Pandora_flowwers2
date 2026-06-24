@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { BrandImage } from '@/components/ui/BrandImage';
 import { useForm } from 'react-hook-form';
 import { Upload, X, CheckCircle, Loader2, Flower2 } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -93,12 +94,12 @@ export default function CustomPage() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-pandora-cream flex items-center justify-center py-20">
+      <div className="min-h-screen bg-porcelain flex items-center justify-center py-20">
         <div className="text-center max-w-md mx-auto px-4">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-10 h-10 text-green-500" />
           </div>
-          <h2 className="font-serif text-3xl text-pandora-dark mb-3">
+          <h2 className="text-3xl text-pandora-dark mb-3">
             Заявка отправлена!
           </h2>
           <p className="text-pandora-muted mb-6 leading-relaxed">
@@ -122,24 +123,21 @@ export default function CustomPage() {
   }
 
   return (
-    <div className="bg-pandora-cream">
+    <div className="bg-porcelain">
       {/* Hero */}
       <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-hero-gradient" />
-        <Image
-          src="https://images.unsplash.com/photo-1490750967868-88df5691cc1e?w=1920&q=90"
-          alt="Букет на заказ"
-          fill
-          sizes="100vw"
-          className="object-cover mix-blend-overlay opacity-20"
-        />
+        <div className="absolute inset-0 bg-ink-gradient" />
+        <div className="absolute inset-0 opacity-25">
+          <BrandImage src="/images/hero/custom-1.jpg" alt="Букет на заказ" tone="ink" />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-ink/70" />
         <div className="relative z-10 container-site text-center text-white">
           <div className="inline-flex items-center gap-3 mb-6">
             <span className="w-8 h-px bg-pandora-gold" />
             <span className="text-pandora-gold text-xs tracking-[0.3em] uppercase">Авторский сервис</span>
             <span className="w-8 h-px bg-pandora-gold" />
           </div>
-          <h1 className="font-serif text-5xl md:text-6xl text-white font-light mb-4">
+          <h1 className="text-4xl md:text-5xl text-white font-bold tracking-tight mb-4">
             Букет на заказ
           </h1>
           <p className="text-pandora-blush/80 text-lg max-w-lg mx-auto">
@@ -156,7 +154,7 @@ export default function CustomPage() {
             <div className="bg-white rounded-sm shadow-card p-6 md:p-8">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-8 h-8 bg-pandora-rose rounded-full flex items-center justify-center text-white text-sm font-bold">1</div>
-                <h2 className="font-serif text-2xl text-pandora-dark">Контактные данные</h2>
+                <h2 className="text-2xl text-pandora-dark">Контактные данные</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -204,7 +202,7 @@ export default function CustomPage() {
             <div className="bg-white rounded-sm shadow-card p-6 md:p-8">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-8 h-8 bg-pandora-rose rounded-full flex items-center justify-center text-white text-sm font-bold">2</div>
-                <h2 className="font-serif text-2xl text-pandora-dark">Описание букета</h2>
+                <h2 className="text-2xl text-pandora-dark">Описание букета</h2>
               </div>
               <div className="space-y-5">
                 <div>
@@ -316,7 +314,7 @@ export default function CustomPage() {
             <div className="bg-white rounded-sm shadow-card p-6 md:p-8">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-8 h-8 bg-pandora-rose rounded-full flex items-center justify-center text-white text-sm font-bold">3</div>
-                <h2 className="font-serif text-2xl text-pandora-dark">Фото для вдохновения</h2>
+                <h2 className="text-2xl text-pandora-dark">Фото для вдохновения</h2>
               </div>
               <p className="text-pandora-muted text-sm mb-4">
                 Загрузите до 10 фотографий, которые помогут нашему флористу понять ваш вкус

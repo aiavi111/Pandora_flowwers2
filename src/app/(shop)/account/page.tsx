@@ -62,7 +62,7 @@ export default function AccountPage() {
 
   if (isLoggedIn && user) {
     return (
-      <div className="bg-pandora-cream min-h-screen">
+      <div className="bg-porcelain min-h-screen">
         <div className="bg-white border-b border-pandora-border">
           <div className="container-site py-8">
             <h1 className="section-title">Личный кабинет</h1>
@@ -95,7 +95,7 @@ export default function AccountPage() {
                 <div className="mb-4 group-hover:scale-110 transition-transform duration-200">
                   {item.icon}
                 </div>
-                <h2 className="font-serif text-xl text-pandora-dark mb-2">{item.title}</h2>
+                <h2 className="text-xl text-pandora-dark mb-2">{item.title}</h2>
                 <p className="text-pandora-muted text-sm">{item.desc}</p>
               </Link>
             ))}
@@ -106,7 +106,7 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="bg-pandora-cream min-h-screen py-12">
+    <div className="bg-porcelain min-h-screen py-12">
       <div className="container-site max-w-md">
         {/* Toggle */}
         <div className="flex bg-white rounded-sm shadow-card p-1 mb-6">
@@ -139,9 +139,9 @@ export default function AccountPage() {
             <form onSubmit={loginForm.handleSubmit(onLogin)} className="space-y-4">
               <div className="text-center mb-6">
                 <div className="w-12 h-12 bg-pandora-rose rounded-sm flex items-center justify-center mx-auto mb-3">
-                  <span className="text-white font-serif text-xl font-bold">P</span>
+                  <span className="text-white text-xl font-bold">P</span>
                 </div>
-                <h2 className="font-serif text-2xl text-pandora-dark">Добро пожаловать</h2>
+                <h2 className="text-2xl text-pandora-dark">Добро пожаловать</h2>
                 <p className="text-pandora-muted text-sm mt-1">Войдите в свой аккаунт</p>
               </div>
 
@@ -180,9 +180,9 @@ export default function AccountPage() {
             <form onSubmit={registerForm.handleSubmit(onRegister)} className="space-y-4">
               <div className="text-center mb-6">
                 <div className="w-12 h-12 bg-pandora-rose rounded-sm flex items-center justify-center mx-auto mb-3">
-                  <span className="text-white font-serif text-xl font-bold">P</span>
+                  <span className="text-white text-xl font-bold">P</span>
                 </div>
-                <h2 className="font-serif text-2xl text-pandora-dark">Создать аккаунт</h2>
+                <h2 className="text-2xl text-pandora-dark">Создать аккаунт</h2>
                 <p className="text-pandora-muted text-sm mt-1">Отслеживайте заказы и сохраняйте избранное</p>
               </div>
 

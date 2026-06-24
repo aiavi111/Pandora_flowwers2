@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pandora Flowers — Доставка цветов и авторских букетов в Бишкеке</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --porc:#FBF8F4; --porcd:#F4EDE4; --linen:#F1E9DE;
+  --ink:#1C1714; --ink7:#2E2722; --soft:#6F665F; --muted:#9C928A;
+  --acc:#B07C90; --accd:#8C5C70; --accs:#F3E6EA; --accg:#CDA0AF;
+  --champ:#BE9E63; --line:#E9E0D5;
+  --mark:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%231C1714'><circle cx='50' cy='50' r='45' fill='none' stroke='%231C1714' stroke-width='6.3'/><path fill-rule='evenodd' d='M47.03 47.03L37.07 49.18A15.8 15.8 0 1 1 49.18 37.07ZM39.73 33.03A6.7 6.7 0 1 0 26.33 33.03A6.7 6.7 0 1 0 39.73 33.03Z'/><path fill-rule='evenodd' d='M52.97 47.03L50.82 37.07A15.8 15.8 0 1 1 62.93 49.18ZM73.67 33.03A6.7 6.7 0 1 0 60.27 33.03A6.7 6.7 0 1 0 73.67 33.03Z'/><path fill-rule='evenodd' d='M52.97 52.97L62.93 50.82A15.8 15.8 0 1 1 50.82 62.93ZM73.67 66.97A6.7 6.7 0 1 0 60.27 66.97A6.7 6.7 0 1 0 73.67 66.97Z'/><path fill-rule='evenodd' d='M47.03 52.97L49.18 62.93A15.8 15.8 0 1 1 37.07 50.82ZM39.73 66.97A6.7 6.7 0 1 0 26.33 66.97A6.7 6.7 0 1 0 39.73 66.97Z'/></svg>");
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--porc);color:var(--ink);line-height:1.6}
+h1,h2,h3,h4{font-weight:700;letter-spacing:-.022em;line-height:1.12}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+.eyebrow{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--accd);font-weight:600;display:inline-flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:30px;height:1px;background:var(--champ)}
+.center .eyebrow{justify-content:center}.center .eyebrow::after{content:"";width:30px;height:1px;background:var(--champ)}
+.sub{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--accd);font-weight:600}
+.sec-title{font-size:clamp(1.9rem,3.6vw,2.7rem);font-weight:800;letter-spacing:-.028em;line-height:1.08}
+.sec{padding:84px 0}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:12px;font-size:.92rem;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);border:1px solid transparent}
+.btn-p{background:var(--ink);color:var(--porc)}
+.btn-p:hover{background:var(--ink7);transform:translateY(-2px);box-shadow:0 16px 30px -14px rgba(28,23,20,.5)}
+.btn-o{background:transparent;color:var(--ink);border-color:rgba(28,23,20,.18)}
+.btn-o:hover{background:var(--ink);color:var(--porc)}
+.btn-g{background:var(--champ);color:var(--ink)}.btn-g:hover{filter:brightness(1.06);transform:translateY(-2px)}
+.btn-ol{background:transparent;color:var(--porc);border-color:rgba(255,255,255,.28)}.btn-ol:hover{background:#fff;color:var(--ink)}
+
+.tile{position:relative;overflow:hidden;background:var(--g,linear-gradient(135deg,#F4ECE3,#E5D6C8))}
+.tile::before{content:"";position:absolute;inset:0;background:center/36% no-repeat var(--mark);opacity:.13}
+.tile::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 120% at 30% 15%,rgba(255,255,255,.22),transparent)}
+.tlabel{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(28,23,20,.4);z-index:2;font-weight:500}
+
+[data-reveal]{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+[data-reveal].in{opacity:1;transform:none}
+
+.ann{background:var(--ink);color:rgba(251,248,244,.72);font-size:.74rem}
+.ann .wrap{display:flex;justify-content:space-between;align-items:center;height:38px}
+.ann .l{display:flex;gap:18px}.ann .c{color:var(--champ)}
+header{position:sticky;top:0;z-index:50;transition:all .35s ease}
+header.glass{background:rgba(251,248,244,.82);backdrop-filter:blur(16px) saturate(140%);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:74px;gap:20px}
+.logo{display:flex;align-items:center;gap:11px}
+.logo .wm{font-size:1.15rem;letter-spacing:.26em;font-weight:700}
+.logo .ws{font-size:.52rem;letter-spacing:.46em;text-transform:uppercase;color:var(--muted);margin-top:3px;font-weight:500}
+.menu{display:flex;gap:32px;font-size:.92rem;font-weight:500}
+.menu a{position:relative;padding:6px 0;transition:color .2s}.menu a:hover{color:var(--acc)}
+.menu a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;border-radius:2px;background:var(--acc);transition:width .3s}.menu a:hover::after{width:100%}
+.tools{display:flex;align-items:center;gap:6px}
+.icn{width:42px;height:42px;display:grid;place-items:center;color:var(--soft);border-radius:50%;transition:color .2s}.icn:hover{color:var(--acc)}
+.cart{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--porc);padding:10px 18px;border-radius:12px;font-size:.88rem;font-weight:500;transition:background .3s}.cart:hover{background:var(--acc)}
+.cart .b{background:var(--champ);color:var(--ink);border-radius:99px;min-width:20px;height:20px;display:grid;place-items:center;font-size:.66rem;font-weight:700;padding:0 5px}
+.burger{display:none;background:none;border:none;color:var(--ink);cursor:pointer}
+
+.hero{position:relative;background:linear-gradient(180deg,#fff,var(--porc) 60%,var(--porcd));overflow:hidden}
+.hero .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding:46px 0 86px}
+.hero h1{font-size:clamp(2.4rem,5.6vw,4.4rem);font-weight:800;letter-spacing:-.032em;line-height:1.04;margin-top:22px}
+.hero h1 em{font-style:normal;color:var(--acc)}
+.hero p.lead{font-size:1.1rem;color:var(--soft);max-width:430px;margin-top:22px}
+.hero .cta{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:44px;padding-top:28px;border-top:1px solid var(--line)}
+.stats .v{font-size:1.7rem;font-weight:800;letter-spacing:-.02em;line-height:1}
+.stats .k{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:6px;font-weight:500}
+.hero-media{position:relative}
+.hero-media .frame{aspect-ratio:4/5;border-radius:22px;box-shadow:0 40px 80px -40px rgba(140,92,112,.4)}
+.float{position:absolute;background:rgba(255,255,255,.74);backdrop-filter:blur(12px);border:1px solid #fff;box-shadow:0 18px 40px -22px rgba(28,23,20,.4)}
+.float.rate{left:-22px;bottom:46px;border-radius:14px;padding:13px 17px;display:flex;gap:12px;align-items:center}
+.float.chip{right:-12px;top:40px;border-radius:99px;padding:9px 16px;font-size:.78rem;font-weight:600;display:flex;gap:7px;align-items:center}
+.av{display:flex}.av span{width:30px;height:30px;border-radius:50%;border:2px solid #fff;margin-left:-8px}
+.stars{color:var(--champ);font-size:.74rem;letter-spacing:1px}
+
+.marq{background:var(--ink);color:rgba(251,248,244,.72);overflow:hidden;padding:14px 0}
+.marq-t{display:flex;width:max-content;animation:marq 32s linear infinite}
+.marq-t span{display:inline-flex;align-items:center;gap:10px;padding:0 28px;font-size:.78rem;white-space:nowrap;font-weight:500}
+.marq-t b{color:var(--champ);font-weight:400}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.cats{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.cat{position:relative;aspect-ratio:3/4;border-radius:16px;overflow:hidden;display:block;box-shadow:0 1px 2px rgba(28,23,20,.04),0 14px 30px -20px rgba(28,23,20,.18);transition:transform .5s,box-shadow .5s}
+.cat:hover{transform:translateY(-4px);box-shadow:0 18px 40px -18px rgba(28,23,20,.3)}
+.cat .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,23,20,.78),rgba(28,23,20,.05) 55%,transparent);z-index:2}
+.cat .cap{position:absolute;left:0;right:0;bottom:0;padding:14px;text-align:center;color:#fff;z-index:3}
+.cat .cap .n{font-size:.98rem;font-weight:600;letter-spacing:-.01em}
+.cat .cap .q{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-top:3px;font-weight:500}
+
+.head-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;gap:20px;flex-wrap:wrap}
+.link-a{font-size:.9rem;font-weight:600;color:var(--ink);display:inline-flex;align-items:center;gap:6px}.link-a:hover{color:var(--acc)}
+.prods{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .45s cubic-bezier(.16,1,.3,1),box-shadow .45s,border-color .45s}
+.card:hover{transform:translateY(-6px);box-shadow:0 18px 40px -16px rgba(28,23,20,.2);border-color:var(--accg)}
+.card .ph{aspect-ratio:4/5;position:relative}
+.card .fav{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.74);backdrop-filter:blur(8px);display:grid;place-items:center;color:var(--acc);z-index:3;transition:transform .3s}
+.card:hover .fav{transform:scale(1.08)}
+.badge{position:absolute;top:12px;left:12px;z-index:3;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;padding:5px 11px;border-radius:99px;font-weight:600}
+.badge.new{background:var(--ink);color:var(--porc)}.badge.hit{background:var(--acc);color:#fff}.badge.sale{background:var(--champ);color:var(--ink)}
+.card .qa{position:absolute;left:12px;right:12px;bottom:12px;z-index:3;transform:translateY(150%);transition:transform .42s cubic-bezier(.16,1,.3,1)}
+.card:hover .qa{transform:none}
+.card .qa button{width:100%;border:none;background:rgba(28,23,20,.92);color:var(--porc);padding:12px;border-radius:10px;font-size:.86rem;font-weight:600;cursor:pointer;backdrop-filter:blur(6px);transition:background .3s}
+.card .qa button:hover{background:var(--acc)}
+.ci{padding:16px}
+.ci .c{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.ci .n{font-size:1rem;font-weight:600;letter-spacing:-.01em;line-height:1.25;margin:5px 0 12px}
+.ci .row{display:flex;justify-content:space-between;align-items:center}
+.ci .price{font-weight:600}
+.ci .req{color:var(--accd);font-weight:600;font-size:.9rem}
+.ci .add{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--soft);transition:all .3s}
+.card:hover .ci .add{background:var(--ink);color:var(--porc);border-color:var(--ink)}
+
+.showcase{display:grid;grid-template-columns:7fr 5fr;gap:18px}
+.showcase .big{position:relative;border-radius:18px;overflow:hidden;min-height:520px}
+.showcase .col{display:grid;grid-template-rows:1fr 1fr;gap:18px}
+.showcase .sm{position:relative;border-radius:18px;overflow:hidden;min-height:251px}
+.sc-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,23,20,.82),transparent 60%);z-index:2}
+.sc-cap{position:absolute;left:0;bottom:0;padding:28px;color:#fff;z-index:3}
+.sc-cap .k{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--champ);margin-bottom:8px;font-weight:600}
+.sc-cap .t{font-weight:700;letter-spacing:-.02em;font-size:1.7rem;line-height:1.1}
+.sc-cap.sm-cap .t{font-size:1.25rem}
+.sc-cap .p{margin-top:12px;display:flex;gap:14px;align-items:center}
+.pill{border:1px solid rgba(255,255,255,.35);border-radius:99px;padding:6px 14px;font-size:.8rem;font-weight:500}
+
+.band{position:relative;background:#1C1714;color:var(--porc);overflow:hidden}
+.band .media{position:absolute;right:0;top:0;bottom:0;width:46%}
+.band .media::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,#1C1714,rgba(28,23,20,.5) 60%,rgba(28,23,20,.15))}
+.band .inner{position:relative;z-index:2;padding:94px 0;max-width:540px}
+.band h2{font-size:clamp(1.9rem,4vw,2.8rem);font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.band h2 em{font-style:normal;color:var(--accg)}
+.band p{color:rgba(251,248,244,.62);font-size:1.06rem;margin:18px 0 28px;max-width:420px}
+
+.promise{display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+.promise .ic{width:54px;height:54px;border-radius:14px;background:var(--accs);color:var(--accd);display:grid;place-items:center;margin-bottom:16px}
+.promise h3{font-size:1.05rem;margin-bottom:9px;font-weight:600;letter-spacing:-.01em}
+.promise p{font-size:.9rem;color:var(--soft)}
+
+.ig{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.ig a{aspect-ratio:1;border-radius:12px;overflow:hidden;position:relative}
+.ig a .igov{position:absolute;inset:0;background:rgba(28,23,20,0);display:grid;place-items:center;color:#fff;transition:background .3s;z-index:3}
+.ig a:hover .igov{background:rgba(28,23,20,.35)}
+.ig .igov svg{opacity:0;transition:opacity .3s}.ig a:hover .igov svg{opacity:1}
+
+.contact{background:linear-gradient(180deg,var(--porc),var(--accs))}
+.contact .wrap{text-align:center;padding:68px 0}
+
+footer{background:#1C1714;color:rgba(251,248,244,.55)}
+.fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.5fr;gap:46px;padding:70px 0}
+footer h4{color:var(--porc);font-size:.95rem;margin-bottom:18px;font-weight:600;letter-spacing:-.01em}
+footer a:hover{color:var(--acc)}
+.fcol ul{list-style:none}.fcol li{margin-bottom:11px;font-size:.9rem}
+.social{display:flex;gap:10px;margin-top:24px}
+.social a{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:grid;place-items:center;transition:all .3s}
+.social a:hover{background:var(--acc);border-color:var(--acc);color:#fff}
+.news{display:flex;max-width:280px;margin-top:8px}
+.news input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff;padding:12px 14px;border-radius:10px 0 0 10px;font-size:.88rem;outline:none}
+.news button{background:var(--acc);border:none;color:#fff;padding:0 18px;border-radius:0 10px 10px 0;cursor:pointer}
+.fbot{border-top:1px solid rgba(255,255,255,.08);font-size:.78rem;color:rgba(251,248,244,.3)}
+.fbot .wrap{display:flex;justify-content:space-between;align-items:center;padding:20px 0;flex-wrap:wrap;gap:10px}
+
+.mobile{position:fixed;inset:0;z-index:80;visibility:hidden}
+.mobile.open{visibility:visible}
+.mobile .bg{position:absolute;inset:0;background:rgba(28,23,20,.45);opacity:0;transition:opacity .4s}.mobile.open .bg{opacity:1}
+.mobile .panel{position:absolute;left:0;top:0;bottom:0;width:86%;max-width:360px;background:var(--porc);transform:translateX(-100%);transition:transform .42s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:24px}
+.mobile.open .panel{transform:none}
+.mobile .panel a{font-size:1.35rem;font-weight:600;letter-spacing:-.01em;padding:9px 0}
+.mclose{align-self:flex-end;background:none;border:none;font-size:1.6rem;cursor:pointer;color:var(--ink)}
+
+@media(max-width:1024px){
+  .cats{grid-template-columns:repeat(3,1fr)}.prods{grid-template-columns:repeat(2,1fr)}
+  .promise{grid-template-columns:repeat(2,1fr);gap:28px}.ig{grid-template-columns:repeat(3,1fr)}
+  .fgrid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:820px){
+  .menu,.ann{display:none}.burger{display:block}
+  .hero .grid{grid-template-columns:1fr;padding:28px 0 66px}
+  .hero-media{order:-1}.float.rate{left:8px}.float.chip{right:8px}
+  .showcase{grid-template-columns:1fr}.showcase .big{min-height:360px}
+  .band .media{width:100%;opacity:.25}.band .inner{padding:66px 0}
+}
+@media(max-width:560px){
+  .cats{grid-template-columns:repeat(2,1fr)}.prods{grid-template-columns:repeat(2,1fr)}
+  .stats{grid-template-columns:repeat(2,1fr);gap:18px}.fgrid{grid-template-columns:1fr}
+  .sec{padding:56px 0}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}[data-reveal]{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="ann"><div class="wrap">
+  <div class="l"><span>Доставка по Бишкеку за 60 минут</span><span class="c">·</span><span>Ежедневно 09:00–00:00</span><span class="c">·</span><span class="c">Шоколад в подарок к букету</span></div>
+  <div class="l"><a href="tel:+996772070067">+996 772 07 00 67</a><span style="opacity:.3">|</span><a href="https://instagram.com/pandora__flowers">@pandora__flowers</a></div>
+</div></div>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <button class="burger" onclick="document.getElementById('mob').classList.add('open')" aria-label="Меню">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a href="#" class="logo">
+      <svg viewBox="0 0 100 100" width="38" height="38" fill="#1C1714"><circle cx="50" cy="50" r="45" fill="none" stroke="#1C1714" stroke-width="6.3"/><path fill-rule="evenodd" d="M47.03 47.03L37.07 49.18A15.8 15.8 0 1 1 49.18 37.07ZM39.73 33.03A6.7 6.7 0 1 0 26.33 33.03A6.7 6.7 0 1 0 39.73 33.03Z"/><path fill-rule="evenodd" d="M52.97 47.03L50.82 37.07A15.8 15.8 0 1 1 62.93 49.18ZM73.67 33.03A6.7 6.7 0 1 0 60.27 33.03A6.7 6.7 0 1 0 73.67 33.03Z"/><path fill-rule="evenodd" d="M52.97 52.97L62.93 50.82A15.8 15.8 0 1 1 50.82 62.93ZM73.67 66.97A6.7 6.7 0 1 0 60.27 66.97A6.7 6.7 0 1 0 73.67 66.97Z"/><path fill-rule="evenodd" d="M47.03 52.97L49.18 62.93A15.8 15.8 0 1 1 37.07 50.82ZM39.73 66.97A6.7 6.7 0 1 0 26.33 66.97A6.7 6.7 0 1 0 39.73 66.97Z"/></svg>
+      <span><div class="wm">PANDORA</div><div class="ws">Flowers</div></span>
+    </a>
+    <nav class="menu">
+      <a href="#cats">Каталог</a><a href="#popular">Букеты</a><a href="#custom">На заказ</a><a href="#contact">Контакты</a>
+    </nav>
+    <div class="tools">
+      <span class="icn" title="Поиск"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+      <span class="icn" title="Избранное"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M19 14c1.5-1.5 3-3.3 3-5.5A4.5 4.5 0 0 0 12 6 4.5 4.5 0 0 0 2 8.5c0 2.2 1.5 4 3 5.5l7 7Z"/></svg></span>
+      <a href="#" class="cart"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>Корзина<span class="b">2</span></a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap grid">
+    <div>
+      <span class="eyebrow" data-reveal>Доставка цветов · Бишкек</span>
+      <h1 data-reveal>Свежие букеты<br>с доставкой <em>за 60 минут</em></h1>
+      <p class="lead" data-reveal>Премиальные букеты ручной сборки. Выбирайте готовые композиции или закажите авторский букет — привезём с фотоотчётом перед доставкой.</p>
+      <div class="cta" data-reveal>
+        <a class="btn btn-p" href="#popular">Смотреть каталог
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-o" href="#custom">Букет на заказ</a>
+      </div>
+      <div class="stats" data-reveal>
+        <div><div class="v">60 мин</div><div class="k">доставка</div></div>
+        <div><div class="v">4.8</div><div class="k">рейтинг</div></div>
+        <div><div class="v">81K</div><div class="k">Instagram</div></div>
+        <div><div class="v">5 лет</div><div class="k">на рынке</div></div>
+      </div>
+    </div>
+    <div class="hero-media" data-reveal>
+      <div class="tile frame" style="--g:radial-gradient(120% 120% at 30% 18%,#F8E8ED,#E3BFC6)"><div class="tlabel">Pandora Flowers</div></div>
+      <div class="float rate"><div class="av"><span style="background:#E3BFC6"></span><span style="background:#EDCBD7"></span><span style="background:#E7D5AC"></span></div><div><div class="stars">★★★★★</div><div style="font-size:.74rem;color:var(--soft);margin-top:2px">168+ клиентов</div></div></div>
+      <div class="float chip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B07C90" stroke-width="1.8"><path d="M3 7h11v8H3zM14 10h4l3 3v2h-7z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>Доставка 60 мин</div>
+    </div>
+  </div>
+</section>
+
+<div class="marq"><div class="marq-t">
+  <span>Доставка по Бишкеку за 60 минут <b>✦</b></span><span>Фотоотчёт перед отправкой <b>✦</b></span><span>Свежие цветы каждый день <b>✦</b></span><span>Шоколад в подарок <b>✦</b></span><span>Авторская сборка <b>✦</b></span>
+  <span>Доставка по Бишкеку за 60 минут <b>✦</b></span><span>Фотоотчёт перед отправкой <b>✦</b></span><span>Свежие цветы каждый день <b>✦</b></span><span>Шоколад в подарок <b>✦</b></span><span>Авторская сборка <b>✦</b></span>
+</div></div>
+
+<section class="sec" id="cats">
+  <div class="wrap">
+    <div class="head-row" data-reveal>
+      <div><div class="sub" style="margin-bottom:12px">Коллекции</div><h2 class="sec-title">Выберите повод</h2></div>
+      <a class="link-a" href="#popular">Весь каталог →</a>
+    </div>
+    <div class="cats">
+      <a class="cat tile" data-reveal style="--g:radial-gradient(120% 120% at 30% 18%,#F4E3E5,#E3BFC6)"><div class="ov"></div><div class="cap"><div class="n">Розы</div><div class="q">5 букетов</div></div></a>
+      <a class="cat tile" data-reveal style="--g:radial-gradient(120% 120% at 30% 18%,#F8E8ED,#EDCBD7)"><div class="ov"></div><div class="cap"><div class="n">Пионы</div><div class="q">2 букета</div></div></a>
+      <a class="cat tile" data-reveal style="--g:radial-gradient(120% 120% at 30% 18%,#F3E8EC,#E0CFD7)"><div class="ov"></div><div class="cap"><div class="n">Авторские</div><div class="q">3 букета</div></div></a>
+      <a class="cat tile" data-reveal style="--g:radial-gradient(120% 120% at 30% 18%,#F9EAE0,#EECFBE)"><div class="ov"></div><div class="cap"><div class="n">Тюльпаны</div><div class="q">2 букета</div></div></a>
+      <a class="cat tile" data-reveal style="--g:radial-gradient(120% 120% at 30% 18%,#FAF7F3,#EAE1D6)"><div class="ov"></div><div class="cap"><div class="n">Монобукеты</div><div class="q">2 букета</div></div></a>
+      <a class="cat tile" data-reveal style="--g:radial-gradient(120% 120% at 30% 18%,#F8F1E5,#E9DECC)"><div class="ov"></div><div class="cap"><div class="n">Свадебные</div><div class="q">1 букет</div></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="popular" style="background:var(--porcd)">
+  <div class="wrap">
+    <div class="head-row" data-reveal>
+      <div><div class="sub" style="margin-bottom:12px">Выбор клиентов</div><h2 class="sec-title">Популярные букеты</h2></div>
+      <a class="link-a" href="#">Смотреть все →</a>
+    </div>
+    <div class="prods" id="prodgrid"></div>
+  </div>
+</section>
+
+<section class="sec center">
+  <div class="wrap">
+    <div style="text-align:center;max-width:620px;margin:0 auto 46px" data-reveal>
+      <div class="eyebrow" style="margin-bottom:14px">Витрина сезона</div>
+      <h2 class="sec-title">Бестселлеры ателье</h2>
+      <p style="color:var(--soft);margin-top:14px">Композиции, которые заказывают чаще всего.</p>
+    </div>
+    <div class="showcase" data-reveal>
+      <a class="big tile" style="--g:radial-gradient(120% 120% at 25% 15%,#F3E8EC,#D9C0CB)">
+        <div class="sc-ov"></div>
+        <div class="sc-cap"><div class="k">Авторский</div><div class="t">Pandora Secret</div><div class="p"><span style="font-size:1.05rem;font-weight:600">12 000 с</span><span class="pill">Подробнее ↗</span></div></div>
+      </a>
+      <div class="col">
+        <a class="sm tile" style="--g:radial-gradient(120% 120% at 25% 15%,#F4E3E5,#E3BFC6)"><div class="sc-ov"></div><div class="sc-cap sm-cap"><div class="t">Вечность — 101 роза</div><span style="font-size:.9rem;color:#fff">18 500 с</span></div></a>
+        <a class="sm tile" style="--g:radial-gradient(120% 120% at 25% 15%,#FAF7F3,#E6DCCF)"><div class="sc-ov"></div><div class="sc-cap sm-cap"><div class="t">Букет невесты «Blanc»</div><span style="font-size:.9rem;color:#fff">15 000 с</span></div></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="custom">
+  <div class="media tile" style="--g:radial-gradient(120% 120% at 70% 30%,#2A2420,#15110F)"></div>
+  <div class="wrap"><div class="inner" data-reveal>
+    <div class="eyebrow" style="color:var(--accg);margin-bottom:18px">Индивидуальный заказ</div>
+    <h2>Не нашли <em>идеальный букет?</em></h2>
+    <p>Опишите задумку, повод и бюджет — флористы соберут уникальную композицию специально для вас и пришлют фото перед доставкой.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a class="btn btn-g" href="#">Создать букет
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn-ol" href="https://wa.me/996772070067">WhatsApp</a>
+    </div>
+  </div></div>
+</section>
+
+<section class="sec center">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:52px" data-reveal>
+      <div class="eyebrow" style="margin-bottom:14px">Почему Pandora</div>
+      <h2 class="sec-title">Почему выбирают нас</h2>
+    </div>
+    <div class="promise">
+      <div data-reveal><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/></svg></div><h3>Авторская сборка</h3><p>Каждый букет — ручная работа флориста, а не конвейер. Композиция, которой нет ни у кого.</p></div>
+      <div data-reveal><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7h11v8H3zM14 10h4l3 3v2h-7z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg></div><h3>Доставка 60 минут</h3><p>Привезём по всему Бишкеку за час и пришлём фото букета перед отправкой получателю.</p></div>
+      <div data-reveal><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></svg></div><h3>Свежесть гарантирована</h3><p>Только свежий срез и проверенные поставщики. Букеты, которые радуют долго.</p></div>
+      <div data-reveal><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7"/></svg></div><h3>Подарок в каждом</h3><p>Фирменный бельгийский шоколад Pandora и открытка с вашими словами — бесплатно.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec center" style="background:var(--porcd)">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:34px" data-reveal>
+      <div class="eyebrow" style="margin-bottom:12px">Живая лента</div>
+      <h2 class="sec-title">@pandora__flowers</h2>
+      <p style="color:var(--soft);margin-top:10px">81 000 подписчиков уже с нами в Instagram</p>
+    </div>
+    <div class="ig" data-reveal>
+      <a class="tile" style="--g:radial-gradient(120% 120% at 30% 18%,#F4E3E5,#E3BFC6)"><div class="igov"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></div></a>
+      <a class="tile" style="--g:radial-gradient(120% 120% at 30% 18%,#F8E8ED,#EDCBD7)"><div class="igov"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></div></a>
+      <a class="tile" style="--g:radial-gradient(120% 120% at 30% 18%,#F3E8EC,#E0CFD7)"><div class="igov"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></div></a>
+      <a class="tile" style="--g:radial-gradient(120% 120% at 30% 18%,#F9EAE0,#EECFBE)"><div class="igov"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></div></a>
+      <a class="tile" style="--g:radial-gradient(120% 120% at 30% 18%,#FAF7F3,#EAE1D6)"><div class="igov"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></div></a>
+      <a class="tile" style="--g:radial-gradient(120% 120% at 30% 18%,#F8F1E5,#E9DECC)"><div class="igov"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></div></a>
+    </div>
+    <div style="text-align:center;margin-top:34px"><a class="btn btn-o" href="https://instagram.com/pandora__flowers">Подписаться в Instagram</a></div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap" data-reveal>
+    <h2 style="font-size:clamp(1.8rem,3.6vw,2.4rem);font-weight:800;letter-spacing:-.02em">Остались вопросы?</h2>
+    <p style="color:var(--soft);max-width:420px;margin:14px auto 0">Поможем выбрать букет и оформить доставку — позвоните или напишите прямо сейчас.</p>
+    <div style="display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap">
+      <a class="btn btn-p" href="tel:+996772070067">+996 772 07 00 67</a>
+      <a class="btn btn-o" href="https://wa.me/996772070067">Написать в WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap fgrid">
+    <div class="fcol">
+      <div class="logo" style="margin-bottom:18px">
+        <svg viewBox="0 0 100 100" width="40" height="40" fill="#FBF8F4"><circle cx="50" cy="50" r="45" fill="none" stroke="#FBF8F4" stroke-width="6.3"/><path fill-rule="evenodd" d="M47.03 47.03L37.07 49.18A15.8 15.8 0 1 1 49.18 37.07ZM39.73 33.03A6.7 6.7 0 1 0 26.33 33.03A6.7 6.7 0 1 0 39.73 33.03Z"/><path fill-rule="evenodd" d="M52.97 47.03L50.82 37.07A15.8 15.8 0 1 1 62.93 49.18ZM73.67 33.03A6.7 6.7 0 1 0 60.27 33.03A6.7 6.7 0 1 0 73.67 33.03Z"/><path fill-rule="evenodd" d="M52.97 52.97L62.93 50.82A15.8 15.8 0 1 1 50.82 62.93ZM73.67 66.97A6.7 6.7 0 1 0 60.27 66.97A6.7 6.7 0 1 0 73.67 66.97Z"/><path fill-rule="evenodd" d="M47.03 52.97L49.18 62.93A15.8 15.8 0 1 1 37.07 50.82ZM39.73 66.97A6.7 6.7 0 1 0 26.33 66.97A6.7 6.7 0 1 0 39.73 66.97Z"/></svg>
+        <span><div class="wm" style="color:var(--porc)">PANDORA</div><div class="ws">Flowers</div></span>
+      </div>
+      <p style="font-size:.9rem;max-width:260px">Доставка свежих цветов и авторских букетов по Бишкеку. Букеты, которые становятся воспоминанием.</p>
+      <div class="social">
+        <a href="https://instagram.com/pandora__flowers"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="https://wa.me/996772070067"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l2-5.5A8.5 8.5 0 1 1 21 11.5Z"/></svg></a>
+        <a href="https://t.me/pandora__flowers"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m22 3-9 9M22 3l-7 18-4-7-7-4 18-7Z"/></svg></a>
+      </div>
+    </div>
+    <div class="fcol"><h4>Коллекции</h4><ul><li><a href="#">Розы</a></li><li><a href="#">Пионы</a></li><li><a href="#">Авторские</a></li><li><a href="#">Тюльпаны</a></li><li><a href="#">Свадебные</a></li><li><a href="#">Подарки</a></li></ul></div>
+    <div class="fcol"><h4>Сервис</h4><ul><li><a href="#">Букет на заказ</a></li><li><a href="#">Весь каталог</a></li><li><a href="#">Доставка и оплата</a></li><li><a href="#">Личный кабинет</a></li><li><a href="#">Избранное</a></li></ul></div>
+    <div class="fcol">
+      <h4>Контакты</h4>
+      <p style="font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(251,248,244,.35);margin-bottom:4px">Телефон</p>
+      <p style="margin-bottom:16px"><a href="tel:+996772070067" style="color:var(--porc)">+996 772 07 00 67</a></p>
+      <p style="font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(251,248,244,.35);margin-bottom:4px">Адрес</p>
+      <p style="font-size:.9rem;margin-bottom:16px">ул. Токтогула 112/1, БЦ «Сфера», Бишкек</p>
+      <div class="news"><input placeholder="Ваш email"><button>→</button></div>
+    </div>
+  </div>
+  <div class="fbot"><div class="wrap"><div>© 2026 Pandora Flowers · Бишкек. Все права защищены.</div><div>Доставка 60 минут · Шоколад в подарок</div></div></div>
+</footer>
+
+<div class="mobile" id="mob">
+  <div class="bg" onclick="this.parentElement.classList.remove('open')"></div>
+  <div class="panel">
+    <button class="mclose" onclick="document.getElementById('mob').classList.remove('open')">×</button>
+    <a href="#cats" onclick="closeMob()">Каталог</a>
+    <a href="#popular" onclick="closeMob()">Букеты</a>
+    <a href="#custom" onclick="closeMob()">Букет на заказ</a>
+    <a href="#contact" onclick="closeMob()">Контакты</a>
+    <div style="margin-top:auto"><a class="btn btn-p" style="width:100%;justify-content:center" href="tel:+996772070067">Позвонить</a></div>
+  </div>
+</div>
+
+<script>
+const PRODUCTS=[
+  {n:'Страсть — 25 красных роз',c:'Розы',p:'4 500 с',g:['#F4E3E5','#E3BFC6'],b:'hit'},
+  {n:'Pandora Secret — авторский',c:'Авторский',p:'12 000 с',o:'14 000 с',g:['#F3E8EC','#E0CFD7'],b:'new'},
+  {n:'Пионовый рай — 15 пионов',c:'Пионы',p:'5 500 с',g:['#F8E8ED','#EDCBD7'],b:'hit'},
+  {n:'Французский шик — 25 пионов',c:'Пионы',p:'9 500 с',g:['#FAF7F3','#EAE1D6']},
+  {n:'Нежность — 15 белых роз',c:'Розы',p:'2 800 с',g:['#FAF7F3','#EAE1D6'],b:'hit'},
+  {n:'Весенний привет — тюльпаны',c:'Тюльпаны',p:'3 200 с',g:['#F9EAE0','#EECFBE']},
+  {n:'Орхидея — Нежность',c:'Монобукеты',p:'Цена по запросу',req:1,g:['#FAF7F3','#EAE1D6']},
+  {n:'Розовая мечта — 35 роз',c:'Розы',p:'6 200 с',g:['#F8E8ED','#EDCBD7'],b:'hit'}
+];
+const heart='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M19 14c1.5-1.5 3-3.3 3-5.5A4.5 4.5 0 0 0 12 6 4.5 4.5 0 0 0 2 8.5c0 2.2 1.5 4 3 5.5l7 7Z"/></svg>';
+const plus='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>';
+document.getElementById('prodgrid').innerHTML=PRODUCTS.map(function(p){
+  var badge=p.b?'<span class="badge '+p.b+'">'+(p.b==='new'?'Новинка':p.b==='sale'?'−14%':'Хит')+'</span>':'';
+  var price=p.req?'<span class="req">'+p.p+'</span>':'<span class="price">'+p.p+'</span>'+(p.o?' <span style="font-size:.8rem;color:var(--muted);text-decoration:line-through">'+p.o+'</span>':'');
+  return '<div class="card" data-reveal><div class="ph tile" style="--g:radial-gradient(120% 120% at 30% 18%,'+p.g[0]+','+p.g[1]+')">'+badge+'<div class="fav">'+heart+'</div><div class="qa"><button>'+(p.req?'Заказать':'+ В корзину')+'</button></div></div><div class="ci"><div class="c">'+p.c+'</div><div class="n">'+p.n+'</div><div class="row">'+price+'<span class="add">'+plus+'</span></div></div></div>';
+}).join('');
+
+function closeMob(){document.getElementById('mob').classList.remove('open');}
+const io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+function obs(){document.querySelectorAll('[data-reveal]:not(.in)').forEach(function(el){var r=el.getBoundingClientRect();if(r.top<innerHeight*.92)el.classList.add('in');else io.observe(el);});}
+obs();
+addEventListener('scroll',function(){document.getElementById('hdr').classList.toggle('glass',scrollY>14);},{passive:true});
+document.getElementById('hdr').classList.toggle('glass',scrollY>14);
+</script>
+</body>
+</html>

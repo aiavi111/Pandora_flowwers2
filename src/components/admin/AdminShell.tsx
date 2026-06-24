@@ -4,18 +4,10 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
-  LayoutDashboard,
-  Package,
-  ShoppingBag,
-  Flower2,
-  BarChart3,
-  LogOut,
-  Menu,
-  X,
-  ChevronRight,
-  Bell,
+  LayoutDashboard, Package, ShoppingBag, Flower2, BarChart3, LogOut, Menu, ChevronRight,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { PandoraLogoMark } from '@/components/ui/PandoraLogoMark';
 import toast from 'react-hot-toast';
 
 const NAV_ITEMS = [
@@ -56,14 +48,14 @@ export default function AdminShell({ children, title, subtitle }: AdminShellProp
 
   if (!admin) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-porcelain-deep flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-pandora-rose border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50">
+    <div className="flex h-screen overflow-hidden bg-porcelain-deep">
       {/* Sidebar overlay mobile */}
       {sidebarOpen && (
         <div
@@ -75,19 +67,17 @@ export default function AdminShell({ children, title, subtitle }: AdminShellProp
       {/* Sidebar */}
       <aside
         className={cn(
-          'fixed lg:sticky top-0 left-0 h-screen z-50 lg:z-auto w-64 bg-pandora-dark flex flex-col transition-transform duration-300 ease-in-out flex-shrink-0',
+          'fixed lg:sticky top-0 left-0 h-screen z-50 lg:z-auto w-64 bg-ink flex flex-col transition-transform duration-300 ease-in-out flex-shrink-0',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         )}
       >
         {/* Logo */}
         <div className="p-5 border-b border-white/10">
           <Link href="/secure-admin/dashboard" className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-pandora-rose rounded-sm flex items-center justify-center">
-              <span className="text-white font-serif text-lg font-bold">P</span>
-            </div>
+            <PandoraLogoMark size={34} className="text-porcelain" />
             <div>
-              <div className="text-white font-serif text-base font-semibold">Pandora</div>
-              <div className="text-pandora-gold/70 text-xs">Admin Panel</div>
+              <div className="text-porcelain font-semibold text-base tracking-wide">Pandora</div>
+              <div className="text-champagne/70 text-xs">Admin Panel</div>
             </div>
           </Link>
         </div>
@@ -104,7 +94,7 @@ export default function AdminShell({ children, title, subtitle }: AdminShellProp
                 onClick={() => setSidebarOpen(false)}
                 className={cn(
                   'admin-nav-item',
-                  isActive ? 'active' : 'text-pandora-blush/60 hover:bg-white/5 hover:text-white'
+                  isActive ? 'active' : 'text-porcelain/55 hover:bg-white/5 hover:text-porcelain'
                 )}
               >
                 <Icon className="w-5 h-5 flex-shrink-0" />
@@ -118,14 +108,12 @@ export default function AdminShell({ children, title, subtitle }: AdminShellProp
         {/* User */}
         <div className="p-4 border-t border-white/10">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 bg-pandora-rose/30 rounded-full flex items-center justify-center">
-              <span className="text-white text-sm font-bold">
-                {admin.name.charAt(0)}
-              </span>
+            <div className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center">
+              <span className="text-porcelain text-sm font-bold">{admin.name.charAt(0)}</span>
             </div>
             <div>
-              <div className="text-white text-sm font-medium">{admin.name}</div>
-              <div className="text-pandora-blush/50 text-xs capitalize">{admin.role}</div>
+              <div className="text-porcelain text-sm font-medium">{admin.name}</div>
+              <div className="text-porcelain/45 text-xs capitalize">{admin.role}</div>
             </div>
           </div>
           <button
@@ -141,31 +129,17 @@ export default function AdminShell({ children, title, subtitle }: AdminShellProp
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top bar */}
-        <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between flex-shrink-0">
+        <header className="bg-white border-b border-line px-6 py-4 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-4">
-            <button
-              className="lg:hidden p-2 text-gray-500 hover:text-pandora-rose transition-colors"
-              onClick={() => setSidebarOpen(true)}
-            >
+            <button className="lg:hidden p-2 text-ink-soft hover:text-accent transition-colors" onClick={() => setSidebarOpen(true)}>
               <Menu className="w-5 h-5" />
             </button>
             <div>
-              <h1 className="text-xl font-semibold text-gray-800">{title}</h1>
-              {subtitle && <p className="text-sm text-gray-500">{subtitle}</p>}
+              <h1 className="text-xl font-bold tracking-tight text-ink">{title}</h1>
+              {subtitle && <p className="text-sm text-ink-muted">{subtitle}</p>}
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <button className="relative p-2 text-gray-500 hover:text-pandora-rose transition-colors">
-              <Bell className="w-5 h-5" />
-            </button>
-            <Link
-              href="/"
-              target="_blank"
-              className="text-xs text-pandora-rose hover:underline"
-            >
-              Смотреть сайт ↗
-            </Link>
-          </div>
+          <Link href="/" target="_blank" className="text-xs font-medium text-accent hover:text-accent-deep transition-colors">Смотреть сайт ↗</Link>
         </header>
 
         {/* Page content */}

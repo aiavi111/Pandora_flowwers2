@@ -105,7 +105,7 @@ export default function OrderDetailClient({ order }: OrderDetailClientProps) {
 
   const transitions = STATUS_TRANSITIONS[order.status] ?? [];
   const statusLabel = ORDER_STATUS_LABELS[order.status as OrderStatus] ?? order.status;
-  const statusColor = ORDER_STATUS_COLORS[order.status as OrderStatus] ?? 'bg-gray-100 text-gray-700';
+  const statusColor = ORDER_STATUS_COLORS[order.status as OrderStatus] ?? 'bg-porcelain-deep text-ink-soft';
 
   return (
     <div className="space-y-6 max-w-5xl">
@@ -139,11 +139,11 @@ export default function OrderDetailClient({ order }: OrderDetailClientProps) {
         {/* Main info */}
         <div className="lg:col-span-2 space-y-5">
           {/* Order items */}
-          <div className="bg-white rounded-sm shadow-sm border border-gray-100 overflow-hidden">
-            <div className="px-5 py-4 border-b border-gray-100 font-semibold text-gray-800">
+          <div className="bg-white rounded-sm shadow-sm border border-line overflow-hidden">
+            <div className="px-5 py-4 border-b border-line font-semibold text-ink">
               Состав заказа ({order.items.length} позиции)
             </div>
-            <div className="divide-y divide-gray-50">
+            <div className="divide-y divide-line">
               {order.items.map((item) => (
                 <div key={item.id} className="flex items-center gap-3 px-5 py-4">
                   {item.imageUrl && (
@@ -152,25 +152,25 @@ export default function OrderDetailClient({ order }: OrderDetailClientProps) {
                     </div>
                   )}
                   <div className="flex-1">
-                    <div className="font-medium text-sm text-gray-800">{item.name}</div>
-                    <div className="text-xs text-gray-400">× {item.quantity}</div>
+                    <div className="font-medium text-sm text-ink">{item.name}</div>
+                    <div className="text-xs text-ink-muted">× {item.quantity}</div>
                   </div>
-                  <div className="font-semibold text-sm text-gray-800">
+                  <div className="font-semibold text-sm text-ink">
                     {formatPrice(item.price * item.quantity)}
                   </div>
                 </div>
               ))}
             </div>
-            <div className="px-5 py-4 bg-gray-50 border-t border-gray-100">
-              <div className="flex justify-between text-sm text-gray-500 mb-2">
+            <div className="px-5 py-4 bg-porcelain-deep border-t border-line">
+              <div className="flex justify-between text-sm text-ink-muted mb-2">
                 <span>Товары</span>
                 <span>{formatPrice(order.subtotal)}</span>
               </div>
-              <div className="flex justify-between text-sm text-gray-500 mb-2">
+              <div className="flex justify-between text-sm text-ink-muted mb-2">
                 <span>Доставка</span>
                 <span>{order.deliveryCost === 0 ? 'Бесплатно' : formatPrice(order.deliveryCost)}</span>
               </div>
-              <div className="flex justify-between font-bold text-gray-800 pt-2 border-t border-gray-200">
+              <div className="flex justify-between font-bold text-ink pt-2 border-t border-line">
                 <span>Итого</span>
                 <span className="text-pandora-rose">{formatPrice(order.total)}</span>
               </div>
@@ -211,12 +211,12 @@ export default function OrderDetailClient({ order }: OrderDetailClientProps) {
           )}
 
           {/* Admin notes */}
-          <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-5">
-            <h3 className="font-semibold text-gray-800 mb-3">Заметки администратора</h3>
+          <div className="bg-white rounded-sm shadow-sm border border-line p-5">
+            <h3 className="font-semibold text-ink mb-3">Заметки администратора</h3>
             <textarea
               value={adminNotes}
               onChange={(e) => setAdminNotes(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-200 rounded-sm text-sm focus:outline-none focus:border-pandora-rose resize-none"
+              className="w-full px-3 py-2 border border-line rounded-sm text-sm focus:outline-none focus:border-pandora-rose resize-none"
               rows={3}
               placeholder="Внутренние заметки..."
             />
@@ -232,22 +232,22 @@ export default function OrderDetailClient({ order }: OrderDetailClientProps) {
         {/* Sidebar */}
         <div className="space-y-4">
           {/* Customer */}
-          <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-5">
-            <h3 className="font-semibold text-gray-800 mb-4">Покупатель</h3>
+          <div className="bg-white rounded-sm shadow-sm border border-line p-5">
+            <h3 className="font-semibold text-ink mb-4">Покупатель</h3>
             <div className="space-y-3 text-sm">
               <div className="flex items-start gap-2">
-                <span className="text-gray-400 w-20 flex-shrink-0">Имя:</span>
-                <span className="font-medium text-gray-800">{order.customerName}</span>
+                <span className="text-ink-muted w-20 flex-shrink-0">Имя:</span>
+                <span className="font-medium text-ink">{order.customerName}</span>
               </div>
               <div className="flex items-start gap-2">
-                <Phone className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
+                <Phone className="w-4 h-4 text-ink-muted flex-shrink-0 mt-0.5" />
                 <a href={`tel:${order.customerPhone}`} className="text-pandora-rose hover:underline">
                   {order.customerPhone}
                 </a>
               </div>
               {order.customerEmail && (
                 <div className="flex items-start gap-2">
-                  <span className="text-gray-400 w-4 flex-shrink-0">@</span>
+                  <span className="text-ink-muted w-4 flex-shrink-0">@</span>
                   <span>{order.customerEmail}</span>
                 </div>
               )}
@@ -274,27 +274,27 @@ export default function OrderDetailClient({ order }: OrderDetailClientProps) {
           </div>
 
           {/* Delivery */}
-          <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-5">
-            <h3 className="font-semibold text-gray-800 mb-4">Доставка</h3>
+          <div className="bg-white rounded-sm shadow-sm border border-line p-5">
+            <h3 className="font-semibold text-ink mb-4">Доставка</h3>
             <div className="space-y-3 text-sm">
               <div className="flex items-start gap-2">
-                <Truck className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
+                <Truck className="w-4 h-4 text-ink-muted flex-shrink-0 mt-0.5" />
                 <span>{order.deliveryMethod === 'delivery' ? 'Курьерская доставка' : 'Самовывоз'}</span>
               </div>
               {order.deliveryAddress && (
                 <div className="flex items-start gap-2">
-                  <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-ink-muted flex-shrink-0 mt-0.5" />
                   <span>{order.deliveryAddress}</span>
                 </div>
               )}
               {order.deliveryDate && (
                 <div className="flex items-start gap-2">
-                  <Clock className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
+                  <Clock className="w-4 h-4 text-ink-muted flex-shrink-0 mt-0.5" />
                   <span>{order.deliveryDate} {order.deliveryTime && `· ${order.deliveryTime}`}</span>
                 </div>
               )}
               {order.recipientName && (
-                <div className="text-xs text-gray-500 pt-2 border-t border-gray-100">
+                <div className="text-xs text-ink-muted pt-2 border-t border-line">
                   Получатель: {order.recipientName}
                   {order.recipientPhone && ` · ${order.recipientPhone}`}
                   {order.isAnonymous && ' (анонимно)'}
@@ -304,9 +304,9 @@ export default function OrderDetailClient({ order }: OrderDetailClientProps) {
           </div>
 
           {/* Order meta */}
-          <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-5">
-            <h3 className="font-semibold text-gray-800 mb-4">Информация</h3>
-            <div className="space-y-2 text-xs text-gray-500">
+          <div className="bg-white rounded-sm shadow-sm border border-line p-5">
+            <h3 className="font-semibold text-ink mb-4">Информация</h3>
+            <div className="space-y-2 text-xs text-ink-muted">
               <div className="flex justify-between">
                 <span>Создан:</span>
                 <span>{formatDateTime(order.createdAt)}</span>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import { BrandImage } from '@/components/ui/BrandImage';
 import { useForm } from 'react-hook-form';
 import {
   Truck,
@@ -69,7 +69,7 @@ export default function CheckoutPage() {
 
   if (items.length === 0 && !orderId) {
     return (
-      <div className="min-h-screen bg-pandora-cream flex items-center justify-center">
+      <div className="min-h-screen bg-porcelain flex items-center justify-center">
         <div className="text-center">
           <h2 className="font-serif text-2xl text-pandora-dark mb-4">Корзина пуста</h2>
           <button onClick={() => router.push('/catalog')} className="btn-primary">
@@ -157,10 +157,10 @@ export default function CheckoutPage() {
   // QR Payment screen
   if (step === 'qr' && orderNumber) {
     return (
-      <div className="min-h-screen bg-pandora-cream py-12">
+      <div className="min-h-screen bg-porcelain py-12">
         <div className="container-site max-w-md text-center">
-          <div className="bg-white rounded-sm shadow-card p-8">
-            <QrCode className="w-12 h-12 text-pandora-rose mx-auto mb-4" />
+          <div className="bg-white rounded-card border border-line shadow-card p-8">
+            <QrCode className="w-12 h-12 text-accent mx-auto mb-4" />
             <h2 className="font-serif text-2xl text-pandora-dark mb-2">Оплата через QR</h2>
             <p className="text-pandora-muted text-sm mb-6">Заказ № {orderNumber}</p>
 
@@ -228,10 +228,11 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="bg-pandora-cream min-h-screen">
-      <div className="bg-white border-b border-pandora-border">
-        <div className="container-site py-8">
-          <h1 className="section-title">Оформление заказа</h1>
+    <div className="bg-porcelain min-h-screen">
+      <div className="bg-porcelain-fade border-b border-line">
+        <div className="container-site py-10">
+          <div className="section-subtitle mb-3">Pandora Flowers</div>
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-ink">Оформление заказа</h1>
         </div>
       </div>
 
@@ -259,10 +260,10 @@ export default function CheckoutPage() {
                   ].map((opt) => (
                     <label
                       key={opt.value}
-                      className={`flex items-start gap-4 p-4 rounded-sm border-2 cursor-pointer transition-all duration-200 ${
+                      className={`flex items-start gap-4 p-4 rounded-input border-2 cursor-pointer transition-all duration-200 ${
                         deliveryMethod === opt.value
-                          ? 'border-pandora-rose bg-pandora-blush/20'
-                          : 'border-pandora-border hover:border-pandora-rose/50'
+                          ? 'border-ink bg-accent-soft/40'
+                          : 'border-line hover:border-ink/40'
                       }`}
                     >
                       <input
@@ -459,10 +460,10 @@ export default function CheckoutPage() {
                   ].map((opt) => (
                     <label
                       key={opt.value}
-                      className={`flex items-start gap-4 p-4 rounded-sm border-2 cursor-pointer transition-all duration-200 ${
+                      className={`flex items-start gap-4 p-4 rounded-input border-2 cursor-pointer transition-all duration-200 ${
                         paymentMethod === opt.value
-                          ? 'border-pandora-rose bg-pandora-blush/20'
-                          : 'border-pandora-border hover:border-pandora-rose/50'
+                          ? 'border-ink bg-accent-soft/40'
+                          : 'border-line hover:border-ink/40'
                       }`}
                     >
                       <input
@@ -499,31 +500,20 @@ export default function CheckoutPage() {
 
             {/* Order summary sidebar */}
             <div>
-              <div className="bg-white rounded-sm shadow-card p-6 sticky top-24">
-                <h2 className="font-serif text-xl text-pandora-dark mb-5">Ваш заказ</h2>
+              <div className="bg-white rounded-card border border-line shadow-card p-6 sticky top-28">
+                <h2 className="text-lg font-bold text-ink mb-5">Ваш заказ</h2>
 
                 <div className="space-y-3 mb-5">
                   {items.map((item) => {
-                    const image = item.product.images?.[0]?.url;
                     return (
                       <div key={item.id} className="flex gap-3">
-                        {image && (
-                          <div className="w-14 h-18 flex-shrink-0 rounded-sm overflow-hidden">
-                            <Image
-                              src={image}
-                              alt={item.product.name}
-                              width={56}
-                              height={72}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        )}
+                        <div className="media w-14 h-[72px] flex-shrink-0">
+                          <BrandImage src={item.product.images?.[0]?.url} alt={item.product.name} tone={(item.product.colors?.split(',')[0] || 'mixed') as never} sizes="56px" />
+                        </div>
                         <div className="flex-1 min-w-0">
-                          <div className="text-sm text-pandora-text line-clamp-2">{item.product.name}</div>
-                          <div className="text-xs text-pandora-muted mt-0.5">× {item.quantity}</div>
-                          <div className="text-sm font-medium text-pandora-dark">
-                            {formatPrice(item.product.price * item.quantity)}
-                          </div>
+                          <div className="text-sm text-ink line-clamp-2">{item.product.name}</div>
+                          <div className="text-xs text-ink-muted mt-0.5">× {item.quantity}</div>
+                          <div className="text-sm font-semibold text-ink">{formatPrice(item.product.price * item.quantity)}</div>
                         </div>
                       </div>
                     );
@@ -563,12 +553,12 @@ function FormCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-white rounded-sm shadow-card p-6 md:p-8">
+    <div className="bg-white rounded-card border border-line shadow-card p-6 md:p-8">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-8 h-8 bg-pandora-rose rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+        <div className="w-8 h-8 bg-ink rounded-full flex items-center justify-center text-porcelain text-sm font-bold flex-shrink-0">
           {number}
         </div>
-        <h2 className="font-serif text-xl text-pandora-dark">{title}</h2>
+        <h2 className="text-xl font-bold text-ink">{title}</h2>
       </div>
       {children}
     </div>

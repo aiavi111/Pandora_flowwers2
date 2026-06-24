@@ -59,21 +59,21 @@ export default async function AnalyticsPage() {
           { label: 'Покупателей', value: data.totalCustomers.toString(), icon: <Users className="w-5 h-5" />, color: 'text-green-600 bg-green-50' },
           { label: 'Средний чек', value: formatPrice(data.avgOrderValue), icon: <Star className="w-5 h-5" />, color: 'text-pandora-gold bg-pandora-gold/10' },
         ].map((stat, i) => (
-          <div key={i} className="bg-white rounded-sm shadow-sm border border-gray-100 p-5">
+          <div key={i} className="bg-white rounded-sm shadow-sm border border-line p-5">
             <div className={`w-10 h-10 ${stat.color} rounded-sm flex items-center justify-center mb-3`}>
               {stat.icon}
             </div>
-            <div className="text-2xl font-semibold text-gray-800">{stat.value}</div>
-            <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
+            <div className="text-2xl font-semibold text-ink">{stat.value}</div>
+            <div className="text-xs text-ink-muted mt-1">{stat.label}</div>
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Top products */}
-        <div className="bg-white rounded-sm shadow-sm border border-gray-100">
-          <div className="px-5 py-4 border-b border-gray-100">
-            <h2 className="font-semibold text-gray-800">Топ-10 товаров по продажам</h2>
+        <div className="bg-white rounded-sm shadow-sm border border-line">
+          <div className="px-5 py-4 border-b border-line">
+            <h2 className="font-semibold text-ink">Топ-10 товаров по продажам</h2>
           </div>
           <div className="p-5 space-y-3">
             {data.topProducts.map((product, i) => {
@@ -82,13 +82,13 @@ export default async function AnalyticsPage() {
               return (
                 <div key={product.name}>
                   <div className="flex items-center justify-between text-sm mb-1">
-                    <span className="text-gray-700 flex items-center gap-2">
-                      <span className="w-5 text-gray-400 font-mono text-xs">{i + 1}.</span>
+                    <span className="text-ink-soft flex items-center gap-2">
+                      <span className="w-5 text-ink-muted font-mono text-xs">{i + 1}.</span>
                       <span className="line-clamp-1">{product.name}</span>
                     </span>
-                    <span className="text-gray-500 ml-2 flex-shrink-0">{product._count.name} шт</span>
+                    <span className="text-ink-muted ml-2 flex-shrink-0">{product._count.name} шт</span>
                   </div>
-                  <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-1.5 bg-porcelain-deep rounded-full overflow-hidden">
                     <div
                       className="h-full bg-pandora-rose rounded-full transition-all duration-500"
                       style={{ width: `${pct}%` }}
@@ -101,9 +101,9 @@ export default async function AnalyticsPage() {
         </div>
 
         {/* Category stats */}
-        <div className="bg-white rounded-sm shadow-sm border border-gray-100">
-          <div className="px-5 py-4 border-b border-gray-100">
-            <h2 className="font-semibold text-gray-800">Товаров по категориям</h2>
+        <div className="bg-white rounded-sm shadow-sm border border-line">
+          <div className="px-5 py-4 border-b border-line">
+            <h2 className="font-semibold text-ink">Товаров по категориям</h2>
           </div>
           <div className="p-5">
             <div className="space-y-3">
@@ -113,10 +113,10 @@ export default async function AnalyticsPage() {
                 return (
                   <div key={cat.id}>
                     <div className="flex items-center justify-between text-sm mb-1">
-                      <span className="text-gray-700">{cat.name}</span>
-                      <span className="text-gray-400">{cat._count.products} товаров</span>
+                      <span className="text-ink-soft">{cat.name}</span>
+                      <span className="text-ink-muted">{cat._count.products} товаров</span>
                     </div>
-                    <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-1.5 bg-porcelain-deep rounded-full overflow-hidden">
                       <div
                         className="h-full bg-pandora-gold rounded-full"
                         style={{ width: `${pct}%` }}

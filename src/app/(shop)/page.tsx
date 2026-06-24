@@ -1,196 +1,183 @@
 import Link from 'next/link';
-import Image from 'next/image';
-import { ArrowRight, Truck, Clock, Award, Phone, Gem, Gift } from 'lucide-react';
+import {
+  ArrowRight, ArrowUpRight, Truck, Clock, Sparkles, Gift, Phone,
+  Star, ShieldCheck, Instagram, Leaf,
+} from 'lucide-react';
 import { prisma } from '@/lib/prisma';
 import ProductCard from '@/components/shop/ProductCard';
+import { BrandImage } from '@/components/ui/BrandImage';
 import { formatPrice } from '@/lib/utils';
 
 async function getPopularProducts() {
   return prisma.product.findMany({
     where: { isPopular: true, inStock: true },
-    include: {
-      images: { orderBy: { sortOrder: 'asc' } },
-      category: true,
-    },
-    orderBy: { sortOrder: 'asc' },
-    take: 8,
+    include: { images: { orderBy: { sortOrder: 'asc' } }, category: true },
+    orderBy: { sortOrder: 'asc' }, take: 8,
   });
 }
-
 async function getFeaturedProducts() {
   return prisma.product.findMany({
     where: { isFeatured: true, inStock: true },
-    include: {
-      images: { orderBy: { sortOrder: 'asc' } },
-      category: true,
-    },
-    orderBy: { createdAt: 'desc' },
-    take: 3,
+    include: { images: { orderBy: { sortOrder: 'asc' } }, category: true },
+    orderBy: { createdAt: 'desc' }, take: 5,
   });
 }
-
 async function getCategories() {
   return prisma.category.findMany({
     where: { isActive: true, slug: { notIn: ['gifts'] } },
-    orderBy: { sortOrder: 'asc' },
-    take: 6,
+    orderBy: { sortOrder: 'asc' }, take: 6,
     include: { _count: { select: { products: true } } },
   });
 }
-
 async function getGifts() {
   return prisma.product.findMany({
     where: { category: { slug: 'gifts' }, inStock: true },
-    include: {
-      images: { orderBy: { sortOrder: 'asc' } },
-      category: true,
-    },
-    take: 4,
+    include: { images: { orderBy: { sortOrder: 'asc' } }, category: true }, take: 4,
   });
 }
 
-const HERO_IMAGE = 'https://images.unsplash.com/photo-1490750967868-88df5691cc1e?w=1920&q=90';
+const CAT_TONE: Record<string, string> = {
+  roses: 'red', peonies: 'pink', bouquets: 'mixed', tulips: 'peach',
+  mono: 'white', wedding: 'white', chrysanthemums: 'yellow', gifts: 'cream',
+};
 
 export default async function HomePage() {
-  const [popularProducts, featuredProducts, categories, gifts] = await Promise.all([
-    getPopularProducts(),
-    getFeaturedProducts(),
-    getCategories(),
-    getGifts(),
+  const [popular, featured, categories, gifts] = await Promise.all([
+    getPopularProducts(), getFeaturedProducts(), getCategories(), getGifts(),
   ]);
+
+  const heroProduct = featured[0];
 
   return (
     <div className="page-enter">
-      {/* ── HERO ── */}
-      <section className="relative min-h-[92vh] flex items-center overflow-hidden">
-        {/* Light pink-white gradient base */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white via-pandora-cream to-pandora-blush" />
+      {/* ─────────────────────────── HERO ─────────────────────────── */}
+      <section className="relative overflow-hidden bg-porcelain-fade">
+        <div className="container-site grid lg:grid-cols-12 gap-10 lg:gap-8 items-center pt-12 pb-16 lg:pt-16 lg:pb-24">
+          {/* Copy */}
+          <div className="lg:col-span-6 lg:pr-6 order-2 lg:order-1">
+            <div className="eyebrow mb-7" data-reveal>Авторская флористика · Бишкек</div>
 
-        {/* Flower photo — right side, fading left */}
-        <div className="absolute inset-0">
-          <Image
-            src={HERO_IMAGE}
-            alt="Pandora Flowers"
-            fill
-            sizes="100vw"
-            className="object-cover object-center"
-            priority
-          />
-          {/* Fade photo to white on left */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/88 lg:via-white/70 to-white/10" />
-          {/* Soft blush tint */}
-          <div className="absolute inset-0 bg-gradient-to-br from-pandora-blush/50 via-pandora-blush/10 to-transparent" />
-          {/* Bottom fade to cream */}
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-pandora-cream to-transparent" />
-        </div>
-
-        {/* Content — left aligned, dark text */}
-        <div className="relative z-10 container-site py-24">
-          <div className="max-w-xl">
-            <div className="flex items-center gap-4 mb-10">
-              <span className="w-10 h-px bg-pandora-rose/40" />
-              <span className="text-pandora-rose text-xs tracking-[0.4em] uppercase font-light">
-                Авторские букеты · Бишкек
-              </span>
-            </div>
-
-            <h1 className="font-serif text-7xl sm:text-8xl md:text-9xl font-light tracking-[0.12em] mb-3 text-pandora-dark leading-none">
-              PANDORA
+            <h1 className="font-semibold tracking-tight text-ink leading-[1.02] text-[clamp(2.5rem,6vw,4.6rem)]" data-reveal style={{ transitionDelay: '60ms' }}>
+              Цветы, которые<br />
+              <span className="text-accent">запоминают</span>
             </h1>
-            <div className="text-pandora-muted/50 tracking-[0.6em] text-sm uppercase mb-10 font-light">
-              F L O W E R S
-            </div>
 
-            <p className="text-pandora-muted text-xl font-light mb-10 leading-relaxed max-w-sm">
-              Доставка авторских букетов по Бишкеку за 60 минут
+            <p className="mt-7 text-lg text-ink-soft max-w-md leading-relaxed" data-reveal style={{ transitionDelay: '140ms' }}>
+              Премиальные букеты ручной сборки с доставкой по Бишкеку за 60 минут.
+              Каждая композиция — авторская работа наших флористов.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-start gap-4">
-              <Link
-                href="/catalog"
-                className="inline-flex items-center gap-2 px-10 py-4 bg-pandora-dark text-white text-base font-medium rounded-sm hover:bg-pandora-rose transition-all duration-300"
-              >
-                Смотреть каталог
-                <ArrowRight className="w-4 h-4" />
+            <div className="mt-9 flex flex-col sm:flex-row gap-3" data-reveal style={{ transitionDelay: '220ms' }}>
+              <Link href="/catalog" className="btn-primary btn-lg">
+                Смотреть каталог <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link
-                href="/custom"
-                className="inline-flex items-center gap-2 px-10 py-4 border border-pandora-rose/50 text-pandora-rose text-base font-light rounded-sm hover:bg-pandora-rose hover:text-white transition-all duration-300"
-              >
+              <Link href="/custom" className="btn-outline btn-lg">
                 Букет на заказ
               </Link>
             </div>
 
-            <div className="flex flex-wrap items-center gap-10 mt-14 pt-8 border-t border-pandora-border">
+            <dl className="mt-12 pt-8 border-t border-line grid grid-cols-2 sm:grid-cols-4 gap-6" data-reveal style={{ transitionDelay: '300ms' }}>
               {[
-                { value: '81K', label: 'подписчиков' },
-                { value: '4.8', label: 'рейтинг' },
-                { value: '60 мин', label: 'доставка' },
-                { value: '5 лет', label: 'на рынке' },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <div className="font-serif text-3xl font-light text-pandora-dark">{stat.value}</div>
-                  <div className="text-pandora-muted text-xs tracking-widest uppercase mt-1">{stat.label}</div>
+                { v: '60 мин', l: 'доставка' },
+                { v: '4.8', l: 'рейтинг' },
+                { v: '81K', l: 'в Instagram' },
+                { v: '5 лет', l: 'на рынке' },
+              ].map((s) => (
+                <div key={s.l}>
+                  <dt className="text-3xl font-bold tracking-tight text-ink leading-none">{s.v}</dt>
+                  <dd className="text-xs text-ink-muted tracking-wider uppercase mt-1.5">{s.l}</dd>
                 </div>
               ))}
+            </dl>
+          </div>
+
+          {/* Media composition */}
+          <div className="lg:col-span-6 order-1 lg:order-2" data-reveal style={{ transitionDelay: '120ms' }}>
+            <div className="relative">
+              <div className="media aspect-[4/5] rounded-xl2 shadow-lift animate-kenburns">
+                <BrandImage src="/images/hero/hero-1.jpg" alt="Авторский букет Pandora Flowers"
+                  tone="mixed" label="Pandora Flowers" priority sizes="(max-width: 1024px) 100vw, 50vw" />
+              </div>
+
+              {/* floating rating card */}
+              <div className="hidden sm:flex absolute -left-4 lg:-left-8 bottom-10 glass-card rounded-card shadow-lift p-4 pr-6 items-center gap-3 animate-float">
+                <div className="flex -space-x-2">
+                  {['#E3BFC6', '#EDCBD7', '#E7D5AC'].map((c) => (
+                    <span key={c} className="w-8 h-8 rounded-full border-2 border-white" style={{ background: c }} />
+                  ))}
+                </div>
+                <div>
+                  <div className="flex items-center gap-1 text-champagne">
+                    {[...Array(5)].map((_, i) => <Star key={i} className="w-3 h-3 fill-current" />)}
+                  </div>
+                  <div className="text-xs text-ink-soft mt-0.5">168+ счастливых клиентов</div>
+                </div>
+              </div>
+
+              {/* floating delivery chip */}
+              <div className="hidden sm:flex absolute -right-3 lg:-right-6 top-8 glass-card rounded-pill shadow-soft px-4 py-2.5 items-center gap-2">
+                <Truck className="w-4 h-4 text-accent" />
+                <span className="text-xs font-medium text-ink">Доставка 60 мин</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-pandora-muted/30">
-          <span className="text-xs tracking-widest uppercase">Прокрутите</span>
-          <div className="w-px h-8 bg-pandora-rose/20 animate-pulse" />
-        </div>
+        <div className="absolute -z-0 -top-24 -right-24 w-96 h-96 rounded-full bg-accent-soft/40 blur-3xl pointer-events-none" />
       </section>
 
-      {/* ── USP STRIP ── */}
-      <section className="bg-pandora-blush/60 border-y border-pandora-border py-4">
-        <div className="container-site">
-          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12 text-pandora-muted text-xs tracking-wide">
-            {[
-              { icon: <Truck className="w-3.5 h-3.5 text-pandora-rose" />, text: 'Доставка за 60 минут' },
-              { icon: <Clock className="w-3.5 h-3.5 text-pandora-rose" />, text: 'Работаем 09:00–00:00' },
-              { icon: <Award className="w-3.5 h-3.5 text-pandora-rose" />, text: 'Авторские букеты' },
-              { icon: <Gift className="w-3.5 h-3.5 text-pandora-rose" />, text: 'Шоколад в подарок' },
-            ].map((item, i) => (
-              <div key={i} className="flex items-center gap-2">
-                {item.icon}
-                <span>{item.text}</span>
+      {/* ─────────────────── TRUST STRIP (marquee) ─────────────────── */}
+      <section className="bg-ink text-porcelain/70 py-3.5 overflow-hidden">
+        <div className="marquee">
+          <div className="marquee-track">
+            {[0, 1].map((dup) => (
+              <div key={dup} className="flex items-center shrink-0" aria-hidden={dup === 1}>
+                {[
+                  ['Доставка по Бишкеку за 60 минут', Truck],
+                  ['Фотоотчёт перед отправкой', ShieldCheck],
+                  ['Свежие цветы каждый день', Leaf],
+                  ['Шоколад в подарок к букету', Gift],
+                  ['Работаем 09:00 – 00:00', Clock],
+                  ['Авторская сборка', Sparkles],
+                ].map(([t, Icon]: any, i) => (
+                  <span key={i} className="flex items-center gap-2.5 px-7 text-xs tracking-wide whitespace-nowrap">
+                    <Icon className="w-3.5 h-3.5 text-champagne" /> {t}
+                    <span className="text-champagne/40 ml-7">✦</span>
+                  </span>
+                ))}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── CATEGORIES ── */}
-      <section className="py-20 bg-white">
+      {/* ──────────────────────── CATEGORIES ──────────────────────── */}
+      <section className="section bg-porcelain">
         <div className="container-site">
-          <div className="text-center mb-12">
-            <div className="section-subtitle mb-3 text-pandora-rose">Коллекции</div>
-            <h2 className="section-title">Выберите свой стиль</h2>
-            <div className="w-12 h-px bg-pandora-rose/30 mx-auto mt-4" />
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-12" data-reveal>
+            <div>
+              <div className="section-subtitle mb-3">Коллекции</div>
+              <h2 className="section-title">Выберите повод</h2>
+            </div>
+            <Link href="/catalog" className="link-underline text-sm font-medium text-ink hover:text-accent self-start md:self-auto">
+              Весь каталог <ArrowRight className="w-4 h-4 ml-1" />
+            </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-            {categories.map((cat) => (
-              <Link
-                key={cat.id}
-                href={`/catalog/${cat.slug}`}
-                className="group relative rounded-sm overflow-hidden aspect-[3/4] block"
-              >
-                {cat.imageUrl && (
-                  <Image
-                    src={cat.imageUrl}
-                    alt={cat.name}
-                    fill
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent group-hover:from-pandora-rose/60 transition-all duration-400" />
-                <div className="absolute inset-x-0 bottom-0 p-3 text-white text-center">
-                  <div className="font-serif text-sm font-medium">{cat.name}</div>
-                  <div className="text-xs text-white/50 mt-0.5">{cat._count.products} букетов</div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
+            {categories.map((cat, i) => (
+              <Link key={cat.id} href={`/catalog/${cat.slug}`}
+                className="group relative block media aspect-[3/4] shadow-card hover:shadow-card-hover transition-shadow duration-500"
+                data-reveal style={{ transitionDelay: `${i * 60}ms` }}>
+                <BrandImage src={cat.imageUrl} alt={cat.name} tone={(CAT_TONE[cat.slug] ?? 'mixed') as never}
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                  imgClassName="transition-transform duration-[1.1s] ease-out-expo group-hover:scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/10 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-4 text-center text-porcelain">
+                  <div className="font-serif text-lg leading-tight">{cat.name}</div>
+                  <div className="text-[0.66rem] text-porcelain/60 mt-1 tracking-wider uppercase">
+                    {cat._count.products} {cat._count.products === 1 ? 'букет' : 'букетов'}
+                  </div>
                 </div>
               </Link>
             ))}
@@ -198,301 +185,202 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── POPULAR BOUQUETS ── */}
-      <section className="py-20 bg-pandora-cream">
+      {/* ────────────────────── POPULAR BOUQUETS ────────────────────── */}
+      <section className="section bg-porcelain-deep">
         <div className="container-site">
-          <div className="flex items-end justify-between mb-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-12" data-reveal>
             <div>
-              <div className="section-subtitle mb-3 text-pandora-rose">Популярное</div>
-              <h2 className="section-title">Букеты, которые выбирают</h2>
-              <div className="w-12 h-px bg-pandora-rose/30 mt-4" />
+              <div className="section-subtitle mb-3">Выбор клиентов</div>
+              <h2 className="section-title">Букеты, которые любят</h2>
             </div>
-            <Link
-              href="/catalog"
-              className="hidden md:flex items-center gap-2 text-pandora-rose text-sm font-medium hover:gap-3 transition-all duration-200"
-            >
-              Все букеты
-              <ArrowRight className="w-4 h-4" />
+            <Link href="/catalog" className="link-underline text-sm font-medium text-ink hover:text-accent self-start md:self-auto">
+              Смотреть все <ArrowRight className="w-4 h-4 ml-1" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
-            {popularProducts.map((product, i) => (
-              <ProductCard
-                key={product.id}
-                product={product as Parameters<typeof ProductCard>[0]['product']}
-                priority={i < 4}
-              />
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {popular.map((p, i) => (
+              <div key={p.id} data-reveal style={{ transitionDelay: `${(i % 4) * 70}ms` }}>
+                <ProductCard product={p as Parameters<typeof ProductCard>[0]['product']} priority={i < 4} />
+              </div>
             ))}
-          </div>
-
-          <div className="text-center mt-10 md:hidden">
-            <Link href="/catalog" className="btn-secondary">
-              Смотреть все
-              <ArrowRight className="w-4 h-4" />
-            </Link>
           </div>
         </div>
       </section>
 
-      {/* ── FEATURED PRODUCT HIGHLIGHT ── */}
-      {featuredProducts.length > 0 && (
-        <section className="py-20 bg-white">
+      {/* ───────────────────── FEATURED SHOWCASE ───────────────────── */}
+      {heroProduct && featured.length >= 3 && (
+        <section className="section bg-porcelain">
           <div className="container-site">
-            <div className="text-center mb-12">
-              <div className="section-subtitle mb-3 text-pandora-rose">Специальный выбор</div>
-              <h2 className="section-title">Бестселлеры сезона</h2>
-              <div className="w-12 h-px bg-pandora-rose/30 mx-auto mt-4" />
+            <div className="text-center max-w-2xl mx-auto mb-14" data-reveal>
+              <div className="section-subtitle eyebrow eyebrow-center justify-center mb-4">Витрина сезона</div>
+              <h2 className="section-title">Подписанные работы ателье</h2>
+              <p className="mt-4 text-ink-soft">Флагманские композиции, которыми мы гордимся больше всего.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {featuredProducts.map((product, i) => {
-                const image = product.images?.[0]?.url;
-                return (
-                  <Link
-                    key={product.id}
-                    href={`/product/${product.slug}`}
-                    className={`group relative rounded-sm overflow-hidden block ${
-                      i === 0 ? 'md:row-span-2' : ''
-                    }`}
-                  >
-                    <div className={`relative ${i === 0 ? 'aspect-[3/4]' : 'aspect-square'} overflow-hidden`}>
-                      {image && (
-                        <Image
-                          src={image}
-                          alt={product.name}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                          className="object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent" />
-                      <div className="absolute inset-x-0 bottom-0 p-5 text-white">
-                        <div className="text-pandora-rose text-xs uppercase tracking-wider mb-1.5">
-                          {product.category?.name}
-                        </div>
-                        <h3 className="font-serif text-xl md:text-2xl font-light mb-2">
-                          {product.name}
-                        </h3>
-                        <div className="flex items-center justify-between">
-                          <span className="text-white font-medium text-lg">
-                            {formatPrice(product.price)}
-                          </span>
-                          <span className="text-xs bg-white/15 border border-white/20 px-3 py-1 rounded-sm backdrop-blur-sm group-hover:bg-pandora-rose group-hover:border-pandora-rose transition-all duration-200">
-                            Подробнее
-                          </span>
-                        </div>
-                      </div>
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5">
+              {/* large left */}
+              <Link href={`/product/${heroProduct.slug}`}
+                className="md:col-span-7 group relative block media aspect-[16/13] md:aspect-auto shadow-card hover:shadow-card-hover transition-shadow duration-500"
+                data-reveal>
+                <BrandImage src={heroProduct.images?.[0]?.url} alt={heroProduct.name}
+                  tone={(heroProduct.colors?.split(',')[0] || 'mixed') as never}
+                  label={heroProduct.category?.name} sizes="(max-width: 768px) 100vw, 58vw"
+                  imgClassName="transition-transform duration-[1.2s] ease-out-expo group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/15 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-7 text-porcelain">
+                  <div className="text-eyebrow uppercase text-champagne mb-2">{heroProduct.category?.name}</div>
+                  <h3 className="text-2xl md:text-3xl font-semibold tracking-tight max-w-md">{heroProduct.name}</h3>
+                  <div className="mt-4 flex items-center gap-4">
+                    <span className="text-lg">{heroProduct.price > 0 ? formatPrice(heroProduct.price) : 'Цена по запросу'}</span>
+                    <span className="inline-flex items-center gap-1.5 text-sm border border-white/30 rounded-pill px-4 py-1.5 group-hover:bg-porcelain group-hover:text-ink transition-colors">
+                      Подробнее <ArrowUpRight className="w-4 h-4" />
+                    </span>
+                  </div>
+                </div>
+              </Link>
+
+              {/* right column */}
+              <div className="md:col-span-5 grid grid-rows-2 gap-4 md:gap-5">
+                {featured.slice(1, 3).map((p) => (
+                  <Link key={p.id} href={`/product/${p.slug}`}
+                    className="group relative block media aspect-[16/9] md:aspect-auto shadow-card hover:shadow-card-hover transition-shadow duration-500"
+                    data-reveal>
+                    <BrandImage src={p.images?.[0]?.url} alt={p.name}
+                      tone={(p.colors?.split(',')[0] || 'mixed') as never}
+                      label={p.category?.name} sizes="(max-width: 768px) 100vw, 42vw"
+                      imgClassName="transition-transform duration-[1.2s] ease-out-expo group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink/75 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 p-5 text-porcelain">
+                      <h3 className="text-lg md:text-xl font-semibold tracking-tight">{p.name}</h3>
+                      <span className="text-sm text-porcelain/80">{p.price > 0 ? formatPrice(p.price) : 'Цена по запросу'}</span>
                     </div>
                   </Link>
-                );
-              })}
+                ))}
+              </div>
             </div>
           </div>
         </section>
       )}
 
-      {/* ── CUSTOM BOUQUET BANNER ── */}
-      <section className="relative py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-pandora-black" />
-        <Image
-          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=90"
-          alt="Букет на заказ"
-          fill
-          sizes="100vw"
-          className="object-cover opacity-25 mix-blend-luminosity"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent" />
-        {/* Pink gradient accent */}
-        <div className="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-pandora-rose/10 to-transparent pointer-events-none" />
-
-        <div className="relative z-10 container-site">
-          <div className="max-w-lg">
-            <div className="inline-flex items-center gap-3 mb-6">
-              <span className="w-8 h-px bg-pandora-rose/50" />
-              <span className="text-pandora-rose text-xs tracking-[0.3em] uppercase">
-                Создайте своё
-              </span>
-            </div>
-            <h2 className="font-serif text-4xl md:text-5xl text-white font-light leading-tight mb-4">
-              Не нашли<br />
-              <em className="not-italic text-pandora-rose">идеальный букет?</em>
+      {/* ────────────────────── CUSTOM CTA BAND ────────────────────── */}
+      <section className="relative overflow-hidden bg-ink text-porcelain">
+        <div className="absolute inset-y-0 right-0 w-1/2 hidden lg:block">
+          <BrandImage src="/images/hero/custom-1.jpg" alt="Букет на заказ" tone="ink" />
+          <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/70 to-ink/20" />
+        </div>
+        <div className="container-site relative py-20 lg:py-28">
+          <div className="max-w-xl" data-reveal>
+            <div className="eyebrow mb-6">Индивидуальный заказ</div>
+            <h2 className="text-display-sm md:text-display font-bold leading-[1.05] tracking-tight">
+              Не нашли<br /><span className="text-accent-glow">идеальный букет?</span>
             </h2>
-            <p className="text-white/55 text-lg mb-8 leading-relaxed">
-              Опишите свою мечту — наши флористы создадут уникальный авторский букет специально для вас в течение 2 часов.
+            <p className="mt-5 text-porcelain/65 text-lg max-w-md leading-relaxed">
+              Опишите задумку, повод и бюджет — флористы соберут уникальную композицию
+              специально для вас и пришлют фото перед доставкой.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Link href="/custom" className="btn-primary text-base px-10 py-4">
-                Создать букет на заказ
-                <ArrowRight className="w-4 h-4" />
+            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+              <Link href="/custom" className="btn-gold btn-lg">
+                Создать букет <ArrowRight className="w-4 h-4" />
               </Link>
-              <a
-                href="https://wa.me/996772070067"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-8 py-4 border border-white/20 text-white/70 text-base rounded-sm hover:border-pandora-rose hover:text-pandora-rose transition-all duration-300"
-              >
-                <Phone className="w-4 h-4" />
-                WhatsApp
+              <a href="https://wa.me/996772070067" target="_blank" rel="noopener noreferrer" className="btn-outline-light btn-lg">
+                <Phone className="w-4 h-4" /> WhatsApp
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── GIFTS SECTION ── */}
-      {gifts.length > 0 && (
-        <section className="py-20 bg-pandora-cream">
-          <div className="container-site">
-            <div className="flex items-end justify-between mb-12">
-              <div>
-                <div className="section-subtitle mb-3 text-pandora-rose">Подарки</div>
-                <h2 className="section-title">Дополните букет подарком</h2>
-                <div className="w-12 h-px bg-pandora-rose/30 mt-4" />
+      {/* ──────────────────────── THE PROMISE ──────────────────────── */}
+      <section className="section bg-porcelain">
+        <div className="container-site">
+          <div className="text-center max-w-2xl mx-auto mb-16" data-reveal>
+            <div className="section-subtitle eyebrow eyebrow-center justify-center mb-4">Почему Pandora</div>
+            <h2 className="section-title">Обещание ателье</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-8">
+            {[
+              { icon: Sparkles, t: 'Авторская сборка', d: 'Каждый букет — ручная работа флориста, а не конвейер. Композиция, которой нет больше ни у кого.' },
+              { icon: Truck, t: 'Доставка 60 минут', d: 'Привезём по всему Бишкеку за час и пришлём фото букета перед отправкой получателю.' },
+              { icon: Leaf, t: 'Свежесть гарантирована', d: 'Только свежий срез и проверенные поставщики. Букеты, которые радуют долго.' },
+              { icon: Gift, t: 'Подарок в каждом', d: 'Фирменный бельгийский шоколад Pandora и открытка с вашими словами — бесплатно.' },
+            ].map((f, i) => (
+              <div key={f.t} className="text-center sm:text-left" data-reveal style={{ transitionDelay: `${i * 80}ms` }}>
+                <div className="w-14 h-14 mx-auto sm:mx-0 grid place-items-center rounded-full bg-accent-soft text-accent-deep mb-5">
+                  <f.icon className="w-6 h-6" strokeWidth={1.5} />
+                </div>
+                <h3 className="font-serif text-xl text-ink mb-2.5">{f.t}</h3>
+                <p className="text-sm text-ink-soft leading-relaxed">{f.d}</p>
               </div>
-              <Link
-                href="/catalog/gifts"
-                className="hidden md:flex items-center gap-2 text-pandora-rose text-sm font-medium hover:gap-3 transition-all duration-200"
-              >
-                Все подарки
-                <ArrowRight className="w-4 h-4" />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ──────────────────────────── GIFTS ──────────────────────────── */}
+      {gifts.length > 0 && (
+        <section className="section bg-porcelain-deep">
+          <div className="container-site">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-12" data-reveal>
+              <div>
+                <div className="section-subtitle mb-3">Дополните букет</div>
+                <h2 className="section-title">Подарки и комплименты</h2>
+              </div>
+              <Link href="/catalog/gifts" className="link-underline text-sm font-medium text-ink hover:text-accent self-start md:self-auto">
+                Все подарки <ArrowRight className="w-4 h-4 ml-1" />
               </Link>
             </div>
-
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-              {gifts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product as Parameters<typeof ProductCard>[0]['product']}
-                />
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+              {gifts.map((p, i) => (
+                <div key={p.id} data-reveal style={{ transitionDelay: `${(i % 4) * 70}ms` }}>
+                  <ProductCard product={p as Parameters<typeof ProductCard>[0]['product']} />
+                </div>
               ))}
             </div>
           </div>
         </section>
       )}
 
-      {/* ── WHY PANDORA ── */}
-      <section className="py-20 bg-gradient-to-b from-white to-pandora-cream">
+      {/* ──────────────────────── INSTAGRAM ──────────────────────── */}
+      <section className="section bg-porcelain">
         <div className="container-site">
-          <div className="text-center mb-14">
-            <div className="text-pandora-rose text-xs tracking-[0.4em] uppercase mb-3">
-              Почему выбирают нас
-            </div>
-            <h2 className="font-serif text-4xl md:text-5xl font-light text-pandora-dark">
-              Pandora Flowers
-            </h2>
-            <div className="w-12 h-px bg-pandora-rose/30 mx-auto mt-4" />
+          <div className="text-center mb-10" data-reveal>
+            <div className="section-subtitle eyebrow eyebrow-center justify-center mb-3">Живая лента</div>
+            <h2 className="section-title">@pandora__flowers</h2>
+            <p className="mt-3 text-ink-soft">81 000 подписчиков уже с нами в Instagram</p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-            {[
-              {
-                icon: Gem,
-                title: 'Авторские букеты',
-                desc: 'Каждый букет — уникальное произведение флористического искусства, созданное нашими мастерами',
-              },
-              {
-                icon: Truck,
-                title: '60 минут доставки',
-                desc: 'Мгновенная доставка по всему Бишкеку с фотоотчётом перед отправкой',
-              },
-              {
-                icon: Gift,
-                title: 'Шоколад в подарок',
-                desc: 'К каждому букету — фирменный бельгийский шоколад Pandora. Приятный сюрприз',
-              },
-              {
-                icon: Award,
-                title: 'Рейтинг 4.8',
-                desc: 'Более 168 довольных клиентов доверяют нам самые важные моменты жизни',
-              },
-            ].map((item, i) => (
-              <div key={i} className="text-center group">
-                <div className="w-14 h-14 mx-auto mb-5 rounded-full border border-pandora-border flex items-center justify-center group-hover:border-pandora-rose group-hover:bg-pandora-blush transition-all duration-300">
-                  <item.icon className="w-6 h-6 text-pandora-rose" strokeWidth={1.5} />
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-2 md:gap-3" data-reveal>
+            {[1, 2, 3, 4, 5, 6].map((n) => (
+              <a key={n} href="https://instagram.com/pandora__flowers" target="_blank" rel="noopener noreferrer"
+                className="group relative block media aspect-square">
+                <BrandImage src={`/images/gallery/post-${n}.jpg`} alt="Pandora Flowers в Instagram"
+                  tone={(['red', 'pink', 'mixed', 'peach', 'white', 'cream'][n - 1]) as never}
+                  sizes="(max-width: 768px) 33vw, 16vw"
+                  imgClassName="transition-transform duration-700 group-hover:scale-110" />
+                <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/30 transition-colors grid place-items-center">
+                  <Instagram className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
-                <h3 className="font-serif text-xl text-pandora-dark mb-3 font-light">
-                  {item.title}
-                </h3>
-                <p className="text-pandora-muted text-sm leading-relaxed">
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── INSTAGRAM SECTION ── */}
-      <section className="py-20 bg-white">
-        <div className="container-site text-center">
-          <div className="section-subtitle mb-3 text-pandora-rose">Следите за нами</div>
-          <h2 className="section-title mb-2">@pandora__flowers</h2>
-          <p className="text-pandora-muted text-sm mb-8">
-            81 000 подписчиков уже следят за нами в Instagram
-          </p>
-          <a
-            href="https://instagram.com/pandora__flowers"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-secondary"
-          >
-            Подписаться в Instagram
-            <ArrowRight className="w-4 h-4" />
-          </a>
-
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-1.5 mt-10">
-            {[
-              'https://images.unsplash.com/photo-1548094990-c16ca90f1f0d?w=300&q=80',
-              'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&q=80',
-              'https://images.unsplash.com/photo-1490750967868-88df5691cc1e?w=300&q=80',
-              'https://images.unsplash.com/photo-1520763185298-1b434c919102?w=300&q=80',
-              'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=300&q=80',
-              'https://images.unsplash.com/photo-1487530811015-780780169b7a?w=300&q=80',
-            ].map((url, i) => (
-              <a
-                key={i}
-                href="https://instagram.com/pandora__flowers"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="aspect-square overflow-hidden rounded-sm block group"
-              >
-                <Image
-                  src={url}
-                  alt="Pandora Flowers Instagram"
-                  width={200}
-                  height={200}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 group-hover:brightness-90"
-                />
               </a>
             ))}
           </div>
+          <div className="text-center mt-10">
+            <a href="https://instagram.com/pandora__flowers" target="_blank" rel="noopener noreferrer" className="btn-outline">
+              <Instagram className="w-4 h-4" /> Подписаться
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* ── CONTACT CTA ── */}
-      <section className="py-16 bg-gradient-to-r from-pandora-rose to-pandora-rose-light">
-        <div className="container-site text-center text-white">
-          <h2 className="font-serif text-3xl md:text-4xl font-light mb-4">
-            Остались вопросы?
-          </h2>
-          <p className="text-white/75 mb-8 font-light">
-            Мы всегда на связи. Позвоните или напишите нам прямо сейчас.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="tel:+996772070067"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-pandora-rose font-medium rounded-sm hover:bg-pandora-cream transition-colors duration-200"
-            >
-              <Phone className="w-4 h-4" />
-              +996 772 07 00 67
+      {/* ──────────────────────── CONTACT CTA ──────────────────────── */}
+      <section className="relative bg-blush-gradient">
+        <div className="container-site py-16 text-center" data-reveal>
+          <h2 className="text-display-sm font-bold tracking-tight text-ink">Остались вопросы?</h2>
+          <p className="mt-3 text-ink-soft max-w-md mx-auto">Поможем выбрать букет и оформить доставку — позвоните или напишите прямо сейчас.</p>
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a href="tel:+996772070067" className="btn-primary btn-lg">
+              <Phone className="w-4 h-4" /> +996 772 07 00 67
             </a>
-            <a
-              href="https://wa.me/996772070067"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-white/40 text-white rounded-sm hover:bg-white/10 transition-colors duration-200"
-            >
+            <a href="https://wa.me/996772070067" target="_blank" rel="noopener noreferrer" className="btn-outline btn-lg">
               Написать в WhatsApp
             </a>
           </div>
