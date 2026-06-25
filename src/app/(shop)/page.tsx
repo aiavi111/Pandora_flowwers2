@@ -103,7 +103,7 @@ export default async function HomePage() {
           {/* Media composition */}
           <div className="lg:col-span-6 order-1 lg:order-2" data-reveal style={{ transitionDelay: '120ms' }}>
             <div className="relative">
-              <div className="media aspect-[4/5] rounded-xl2 shadow-lift animate-kenburns">
+              <div className="media aspect-[4/5] rounded-xl2 shadow-lift">
                 <BrandImage src="/images/hero/hero-1.jpg" alt="Авторский букет Pandora Flowers"
                   tone="pink" label="Pandora Flowers" priority sizes="(max-width: 1024px) 100vw, 50vw" />
               </div>
