@@ -3,6 +3,7 @@ import AdminShell from '@/components/admin/AdminShell';
 import { formatPrice } from '@/lib/utils';
 import { TrendingUp, ShoppingBag, Clock, ArrowUpRight, Plus, CreditCard, Flower2 } from 'lucide-react';
 import Link from 'next/link';
+import ResetDataButton from './ResetDataButton';
 
 async function getDashboardData() {
   const now = new Date();
@@ -119,6 +120,8 @@ export default async function DashboardPage() {
           </Link>
         ))}
       </div>
+
+      <ResetDataButton />
     </AdminShell>
   );
 }

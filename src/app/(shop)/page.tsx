@@ -59,8 +59,9 @@ export default async function HomePage() {
   return (
     <div className="page-enter">
       {/* ─────────────────────────── HERO ─────────────────────────── */}
-      <section className="relative overflow-hidden bg-porcelain-fade">
-        <div className="container-site grid lg:grid-cols-12 gap-10 lg:gap-8 items-center pt-12 pb-16 lg:pt-16 lg:pb-24">
+      <section className="relative overflow-hidden" style={{ background: 'linear-gradient(120deg, #FFFFFF 0%, #FDF4F8 42%, #F6E1EC 100%)' }}>
+        <div className="absolute -z-0 top-1/4 -left-24 w-[30rem] h-[30rem] rounded-full bg-accent-glow/25 blur-3xl pointer-events-none" />
+        <div className="container-site relative z-[1] grid lg:grid-cols-12 gap-10 lg:gap-8 items-center pt-12 pb-16 lg:pt-16 lg:pb-24">
           {/* Copy */}
           <div className="lg:col-span-6 lg:pr-6 order-2 lg:order-1">
             <div className="eyebrow mb-7" data-reveal>Авторская флористика · Бишкек</div>
@@ -103,8 +104,8 @@ export default async function HomePage() {
           <div className="lg:col-span-6 order-1 lg:order-2" data-reveal style={{ transitionDelay: '120ms' }}>
             <div className="relative">
               <div className="media aspect-[4/5] rounded-xl2 shadow-lift animate-kenburns">
-                <BrandImage src={heroProduct?.images?.[0]?.url} alt="Авторский букет Pandora Flowers"
-                  tone={(heroProduct?.colors?.split(',')[0] || 'mixed') as never} label="Pandora Flowers" priority sizes="(max-width: 1024px) 100vw, 50vw" />
+                <BrandImage src="/images/hero/hero-1.jpg" alt="Авторский букет Pandora Flowers"
+                  tone="pink" label="Pandora Flowers" priority sizes="(max-width: 1024px) 100vw, 50vw" />
               </div>
 
               {/* floating rating card */}
@@ -177,7 +178,7 @@ export default async function HomePage() {
               <Link key={cat.id} href={`/catalog/${cat.slug}`}
                 className="group relative block media aspect-[3/4] shadow-card hover:shadow-card-hover transition-shadow duration-500"
                 data-reveal style={{ transitionDelay: `${i * 60}ms` }}>
-                <BrandImage src={cat.products?.[0]?.images?.[0]?.url ?? cat.imageUrl} alt={cat.name} tone={(CAT_TONE[cat.slug] ?? 'mixed') as never}
+                <BrandImage src={cat.imageUrl ?? cat.products?.[0]?.images?.[0]?.url} alt={cat.name} tone={(CAT_TONE[cat.slug] ?? 'mixed') as never}
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
                   imgClassName="transition-transform duration-[1.1s] ease-out-expo group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/10 to-transparent" />
