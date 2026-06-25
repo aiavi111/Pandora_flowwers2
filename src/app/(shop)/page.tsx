@@ -178,7 +178,7 @@ export default async function HomePage() {
               <Link key={cat.id} href={`/catalog/${cat.slug}`}
                 className="group relative block media aspect-[3/4] shadow-card hover:shadow-card-hover transition-shadow duration-500"
                 data-reveal style={{ transitionDelay: `${i * 60}ms` }}>
-                <BrandImage src={cat.imageUrl ?? cat.products?.[0]?.images?.[0]?.url} alt={cat.name} tone={(CAT_TONE[cat.slug] ?? 'mixed') as never}
+                <BrandImage src={`/images/categories/${cat.slug}.jpg`} alt={cat.name} tone={(CAT_TONE[cat.slug] ?? 'mixed') as never}
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
                   imgClassName="transition-transform duration-[1.1s] ease-out-expo group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/10 to-transparent" />
