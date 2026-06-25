@@ -4,45 +4,44 @@ import {
   Star, ShieldCheck, Instagram, Leaf,
 } from 'lucide-react';
 import { prisma } from '@/lib/prisma';
+import { unstable_cache } from 'next/cache';
 import ProductCard from '@/components/shop/ProductCard';
 import { BrandImage } from '@/components/ui/BrandImage';
 import { formatPrice } from '@/lib/utils';
 
-async function getPopularProducts() {
-  return prisma.product.findMany({
+// Cache homepage data so the DB isn't queried on every visit (avoids slow
+// cold-starts on the free database tier). Refreshes at most once a minute.
+const getPopularProducts = unstable_cache(
+  () => prisma.product.findMany({
     where: { isPopular: true, inStock: true },
     include: { images: { orderBy: { sortOrder: 'asc' } }, category: true },
     orderBy: { sortOrder: 'asc' }, take: 8,
-  });
-}
-async function getFeaturedProducts() {
-  return prisma.product.findMany({
+  }),
+  ['home-popular'], { revalidate: 60 },
+);
+const getFeaturedProducts = unstable_cache(
+  () => prisma.product.findMany({
     where: { isFeatured: true, inStock: true },
     include: { images: { orderBy: { sortOrder: 'asc' } }, category: true },
     orderBy: { createdAt: 'desc' }, take: 5,
-  });
-}
-async function getCategories() {
-  return prisma.category.findMany({
+  }),
+  ['home-featured'], { revalidate: 60 },
+);
+const getCategories = unstable_cache(
+  () => prisma.category.findMany({
     where: { isActive: true, slug: { notIn: ['gifts'] } },
     orderBy: { sortOrder: 'asc' }, take: 6,
-    include: {
-      _count: { select: { products: true } },
-      products: {
-        where: { inStock: true },
-        orderBy: { sortOrder: 'asc' },
-        take: 1,
-        include: { images: { orderBy: { sortOrder: 'asc' }, take: 1 } },
-      },
-    },
-  });
-}
-async function getGifts() {
-  return prisma.product.findMany({
+    include: { _count: { select: { products: true } } },
+  }),
+  ['home-categories'], { revalidate: 60 },
+);
+const getGifts = unstable_cache(
+  () => prisma.product.findMany({
     where: { category: { slug: 'gifts' }, inStock: true },
     include: { images: { orderBy: { sortOrder: 'asc' } }, category: true }, take: 4,
-  });
-}
+  }),
+  ['home-gifts'], { revalidate: 60 },
+);
 
 const CAT_TONE: Record<string, string> = {
   roses: 'red', peonies: 'pink', bouquets: 'mixed', tulips: 'peach',
