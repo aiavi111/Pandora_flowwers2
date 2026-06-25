@@ -95,8 +95,8 @@ export default async function HomePage() {
           <div className="lg:col-span-6 order-1 lg:order-2" data-reveal style={{ transitionDelay: '120ms' }}>
             <div className="relative">
               <div className="media aspect-[4/5] rounded-xl2 shadow-lift animate-kenburns">
-                <BrandImage src="/images/hero/hero-1.jpg" alt="Авторский букет Pandora Flowers"
-                  tone="mixed" label="Pandora Flowers" priority sizes="(max-width: 1024px) 100vw, 50vw" />
+                <BrandImage src={heroProduct?.images?.[0]?.url} alt="Авторский букет Pandora Flowers"
+                  tone={(heroProduct?.colors?.split(',')[0] || 'mixed') as never} label="Pandora Flowers" priority sizes="(max-width: 1024px) 100vw, 50vw" />
               </div>
 
               {/* floating rating card */}

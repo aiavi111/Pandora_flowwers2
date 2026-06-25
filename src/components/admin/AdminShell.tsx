@@ -10,13 +10,15 @@ import { cn } from '@/lib/utils';
 import { PandoraLogoMark } from '@/components/ui/PandoraLogoMark';
 import toast from 'react-hot-toast';
 
-const NAV_ITEMS = [
+const NAV_ITEMS: { href: string; label: string; icon: typeof LayoutDashboard; badge?: 'newOrders' | 'newRequests' }[] = [
   { href: '/secure-admin/dashboard', label: 'Дашборд', icon: LayoutDashboard },
-  { href: '/secure-admin/orders', label: 'Заказы', icon: ShoppingBag },
+  { href: '/secure-admin/orders', label: 'Заказы', icon: ShoppingBag, badge: 'newOrders' },
   { href: '/secure-admin/products', label: 'Товары', icon: Package },
-  { href: '/secure-admin/custom-requests', label: 'Букеты на заказ', icon: Flower2 },
+  { href: '/secure-admin/custom-requests', label: 'Букеты на заказ', icon: Flower2, badge: 'newRequests' },
   { href: '/secure-admin/analytics', label: 'Аналитика', icon: BarChart3 },
 ];
+
+type Counts = { newOrders?: number; newRequests?: number; pendingPayments?: number };
 
 interface AdminShellProps {
   children: React.ReactNode;
@@ -29,15 +31,19 @@ export default function AdminShell({ children, title, subtitle }: AdminShellProp
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [admin, setAdmin] = useState<{ name: string; role: string } | null>(null);
+  const [counts, setCounts] = useState<Counts>({});
 
   useEffect(() => {
-    fetch('/api/admin/verify')
+    const load = () => fetch('/api/admin/verify')
       .then((r) => r.json())
       .then((data) => {
-        if (data.admin) setAdmin(data.admin);
+        if (data.admin) { setAdmin(data.admin); setCounts(data.counts ?? {}); }
         else router.replace('/secure-admin');
       })
       .catch(() => router.replace('/secure-admin'));
+    load();
+    const t = setInterval(load, 30000); // refresh alert counts every 30s
+    return () => clearInterval(t);
   }, [router]);
 
   const handleLogout = async () => {
@@ -87,6 +93,7 @@ export default function AdminShell({ children, title, subtitle }: AdminShellProp
           {NAV_ITEMS.map((item) => {
             const Icon = item.icon;
             const isActive = pathname.startsWith(item.href);
+            const badgeCount = item.badge ? (counts[item.badge] ?? 0) : 0;
             return (
               <Link
                 key={item.href}
@@ -99,7 +106,9 @@ export default function AdminShell({ children, title, subtitle }: AdminShellProp
               >
                 <Icon className="w-5 h-5 flex-shrink-0" />
                 <span>{item.label}</span>
-                {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
+                {badgeCount > 0 ? (
+                  <span className="ml-auto min-w-5 h-5 px-1.5 grid place-items-center bg-accent text-white text-[0.66rem] font-bold rounded-full">{badgeCount}</span>
+                ) : isActive ? <ChevronRight className="w-4 h-4 ml-auto" /> : null}
               </Link>
             );
           })}

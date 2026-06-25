@@ -68,6 +68,7 @@ export function BrandImage({
           {...(fill ? { fill: true } : { width: width ?? 800, height: height ?? 1000 })}
           sizes={sizes}
           priority={priority}
+          unoptimized={typeof src === 'string' && src.startsWith('data:')}
           onError={() => setFailed(true)}
           className={cn('object-cover w-full h-full', imgClassName)}
         />

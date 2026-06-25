@@ -17,8 +17,8 @@ const config: Config = {
       colors: {
         // ── Semantic tokens (use these in new work) ──
         porcelain: {
-          DEFAULT: '#FBF8F4', // warm ivory base
-          deep: '#F4EDE4',    // alternating sections
+          DEFAULT: '#FDFCFB', // near-white, faint warmth
+          deep: '#F5F1EB',    // alternating sections
         },
         linen: '#F1E9DE',
         ink: {
@@ -41,7 +41,7 @@ const config: Config = {
 
         // ── Legacy scale, retuned to the new palette ──
         pandora: {
-          cream:        '#FBF8F4',
+          cream:        '#FDFCFB',
           black:        '#1C1714',
           dark:         '#221C18',
           rose:         '#B07C90',
@@ -83,7 +83,7 @@ const config: Config = {
         'ink-gradient':    'linear-gradient(150deg, #221C18 0%, #2E2722 48%, #1C1714 100%)',
         'rose-gradient':   'linear-gradient(135deg, #B07C90 0%, #CDA0AF 100%)',
         'blush-gradient':  'linear-gradient(180deg, #FBF8F4 0%, #F3E6EA 100%)',
-        'porcelain-fade':  'linear-gradient(180deg, #FFFFFF 0%, #FBF8F4 60%, #F4EDE4 100%)',
+        'porcelain-fade':  'linear-gradient(180deg, #FFFFFF 0%, #FDFCFB 55%, #F5F1EB 100%)',
         'champagne-line':  'linear-gradient(90deg, transparent, #BE9E63, transparent)',
         'sheen':           'linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%)',
       },
