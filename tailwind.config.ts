@@ -22,10 +22,10 @@ const config: Config = {
         },
         linen: '#F1E9DE',
         ink: {
-          DEFAULT: '#1C1714', // espresso near-black
-          700: '#2E2722',
-          soft: '#6F665F',    // secondary text
-          muted: '#9C928A',   // tertiary text
+          DEFAULT: '#191319', // cool near-black, faint plum (no brown)
+          700: '#2A2230',
+          soft: '#6B626C',    // secondary text
+          muted: '#9A9099',   // tertiary text
         },
         accent: {
           DEFAULT: '#B07C90', // mauve-rose
@@ -80,7 +80,7 @@ const config: Config = {
         pill: '999px',
       },
       backgroundImage: {
-        'ink-gradient':    'linear-gradient(150deg, #221C18 0%, #2E2722 48%, #1C1714 100%)',
+        'ink-gradient':    'linear-gradient(150deg, #241B2A 0%, #2A2230 48%, #191319 100%)',
         'rose-gradient':   'linear-gradient(135deg, #B07C90 0%, #CDA0AF 100%)',
         'blush-gradient':  'linear-gradient(180deg, #FBF8F4 0%, #F3E6EA 100%)',
         'porcelain-fade':  'linear-gradient(180deg, #FFFFFF 0%, #FDFCFB 55%, #F5F1EB 100%)',

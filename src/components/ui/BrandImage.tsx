@@ -14,19 +14,20 @@ type Tone =
   | 'red' | 'pink' | 'white' | 'cream' | 'peach'
   | 'yellow' | 'blue' | 'lilac' | 'green' | 'mixed' | 'ink' | 'default';
 
+// Soft, tender pink/rosé family — no brown, tan or grey.
 const TONES: Record<Tone, [string, string]> = {
-  red:     ['#F4E3E5', '#E3BFC6'],
-  pink:    ['#F8E8ED', '#EDCBD7'],
-  white:   ['#FAF7F3', '#EAE1D6'],
-  cream:   ['#F8F1E5', '#E9DECC'],
-  peach:   ['#F9EAE0', '#EECFBE'],
-  yellow:  ['#F7F1DD', '#E9DCBA'],
-  blue:    ['#E6EBF1', '#CCD7E4'],
-  lilac:   ['#ECE6F2', '#D6CCE5'],
-  green:   ['#E7EFE7', '#CCDFCF'],
-  mixed:   ['#F3E8EC', '#E0CFD7'],
-  ink:     ['#2A2420', '#15110F'],
-  default: ['#F4ECE3', '#E5D6C8'],
+  red:     ['#FCEAEE', '#F3CAD5'],
+  pink:    ['#FDEDF3', '#F4CFDD'],
+  white:   ['#FDF2F5', '#F2DEE8'],
+  cream:   ['#FCEEF2', '#F1D8E1'],
+  peach:   ['#FDECEC', '#F5CFCF'],
+  yellow:  ['#FCEEF1', '#F2D7DE'],
+  blue:    ['#F3ECF6', '#DCCDE9'],
+  lilac:   ['#F4ECF6', '#E0CEEA'],
+  green:   ['#F6ECF2', '#E2CDDD'],
+  mixed:   ['#FCEAF1', '#F0CCDE'],
+  ink:     ['#2A1E27', '#150E14'],
+  default: ['#FCEDF3', '#F1D5E1'],
 };
 
 const MARK =

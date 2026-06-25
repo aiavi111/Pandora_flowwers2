@@ -26,7 +26,15 @@ async function getCategories() {
   return prisma.category.findMany({
     where: { isActive: true, slug: { notIn: ['gifts'] } },
     orderBy: { sortOrder: 'asc' }, take: 6,
-    include: { _count: { select: { products: true } } },
+    include: {
+      _count: { select: { products: true } },
+      products: {
+        where: { inStock: true },
+        orderBy: { sortOrder: 'asc' },
+        take: 1,
+        include: { images: { orderBy: { sortOrder: 'asc' }, take: 1 } },
+      },
+    },
   });
 }
 async function getGifts() {
@@ -169,7 +177,7 @@ export default async function HomePage() {
               <Link key={cat.id} href={`/catalog/${cat.slug}`}
                 className="group relative block media aspect-[3/4] shadow-card hover:shadow-card-hover transition-shadow duration-500"
                 data-reveal style={{ transitionDelay: `${i * 60}ms` }}>
-                <BrandImage src={cat.imageUrl} alt={cat.name} tone={(CAT_TONE[cat.slug] ?? 'mixed') as never}
+                <BrandImage src={cat.products?.[0]?.images?.[0]?.url ?? cat.imageUrl} alt={cat.name} tone={(CAT_TONE[cat.slug] ?? 'mixed') as never}
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
                   imgClassName="transition-transform duration-[1.1s] ease-out-expo group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/10 to-transparent" />
@@ -264,26 +272,24 @@ export default async function HomePage() {
       )}
 
       {/* ────────────────────── CUSTOM CTA BAND ────────────────────── */}
-      <section className="relative overflow-hidden bg-ink text-porcelain">
-        <div className="absolute inset-y-0 right-0 w-1/2 hidden lg:block">
-          <BrandImage src="/images/hero/custom-1.jpg" alt="Букет на заказ" tone="ink" />
-          <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/70 to-ink/20" />
-        </div>
+      <section className="relative overflow-hidden" style={{ background: 'linear-gradient(120deg, #FDF2F6 0%, #F8E2EC 48%, #F0D2E2 100%)' }}>
+        <div className="absolute -right-20 -top-24 w-[28rem] h-[28rem] rounded-full bg-white/50 blur-3xl pointer-events-none" />
+        <div className="absolute right-24 -bottom-24 w-96 h-96 rounded-full bg-accent-glow/30 blur-3xl pointer-events-none" />
         <div className="container-site relative py-20 lg:py-28">
           <div className="max-w-xl" data-reveal>
             <div className="eyebrow mb-6">Индивидуальный заказ</div>
-            <h2 className="text-display-sm md:text-display font-bold leading-[1.05] tracking-tight">
-              Не нашли<br /><span className="text-accent-glow">идеальный букет?</span>
+            <h2 className="text-display-sm md:text-display font-bold leading-[1.05] tracking-tight text-ink">
+              Не нашли<br /><span className="text-accent">идеальный букет?</span>
             </h2>
-            <p className="mt-5 text-porcelain/65 text-lg max-w-md leading-relaxed">
+            <p className="mt-5 text-ink-soft text-lg max-w-md leading-relaxed">
               Опишите задумку, повод и бюджет — флористы соберут уникальную композицию
               специально для вас и пришлют фото перед доставкой.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <Link href="/custom" className="btn-gold btn-lg">
+              <Link href="/custom" className="btn-primary btn-lg">
                 Создать букет <ArrowRight className="w-4 h-4" />
               </Link>
-              <a href="https://wa.me/996772070067" target="_blank" rel="noopener noreferrer" className="btn-outline-light btn-lg">
+              <a href="https://wa.me/996772070067" target="_blank" rel="noopener noreferrer" className="btn-outline btn-lg">
                 <Phone className="w-4 h-4" /> WhatsApp
               </a>
             </div>
